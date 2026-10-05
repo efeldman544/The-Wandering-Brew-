@@ -16,6 +16,18 @@ favicon.svg             browser tab icon
 apple-touch-icon.png    iOS home screen icon
 ```
 
+## Age gate
+
+An 18+ confirmation covers the page on first visit, remembered in
+`localStorage` under `twb-age-ok`.
+
+It is **opt-out**: an inline script in `<head>` adds `needs-age-check` to
+`<html>` only when no prior confirmation is stored, and the overlay is shown off
+that class. So returning visitors get no flash, and visitors without JavaScript
+— search crawlers included — get the page rather than a wall they cannot
+dismiss. The trade-off is that disabling JavaScript bypasses it. To make it
+strict, invert it: show the overlay by default and remove it with script.
+
 ## Deploying
 
 Vercel serves this as-is. Import the repo at vercel.com and take the defaults:
