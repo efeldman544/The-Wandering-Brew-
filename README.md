@@ -14,28 +14,7 @@ img/bottle-*.png        product shots, one per beer
 og.jpg                  social share image (1200x630)
 favicon.svg             browser tab icon
 apple-touch-icon.png    iOS home screen icon
-robots.txt              crawler rules + sitemap pointer
-sitemap.xml             one entry; add a <url> per page as pages are added
 ```
-
-## Age gate
-
-An 18+ confirmation covers the page on first visit and is remembered in
-`localStorage` under `twb-age-ok`.
-
-It is deliberately **opt-out, not opt-in**: an inline script in `<head>` adds
-`needs-age-check` to `<html>` only when no prior confirmation is stored, and CSS
-shows the overlay off that class. So there is no flash for returning visitors,
-and visitors without JavaScript — including search crawlers — get the page
-rather than a wall they cannot dismiss. If a stricter gate is ever required,
-invert it: show the overlay by default and remove it with script.
-
-## Analytics
-
-Vercel Web Analytics and Speed Insights are wired via first-party script tags
-(`/_vercel/insights`, `/_vercel/speed-insights`). No npm dependency. **They only
-collect once enabled in the Vercel dashboard** under the project's Analytics and
-Speed Insights tabs — until then the scripts 404 harmlessly.
 
 ## Deploying
 
@@ -71,13 +50,8 @@ properties at the top, sampled from the bottle labels:
 Beers are in release order, newest first. Each is one `<article class="beer">`
 that sets its own `--bg`, `--fg` and `--accent`.
 
-### Still to do
+### Still to fill in
 
-- **Confirm the contact details** — `hello@thewanderingbrew.co.il` and
-  `instagram.com/thewanderingbrew` are assumed, not verified
-- **Jerusalem Syndrome's ABV and style** (currently `TBC`)
-- **Photography** — there is none. No brewery, no people, no beer in a glass.
-  Only bottles on flat colour.
-- **Hebrew / RTL** — the site is English-only on a `.co.il` domain
-- **A page per beer** — the labels' QR codes say "scan me to learn more" and
-  currently have nowhere to point
+- Jerusalem Syndrome's ABV and style (currently `TBC`)
+- Real stockists in the "Find us" section (currently placeholder rows)
+- The contact email and Instagram handle

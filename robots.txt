@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://thewanderingbrew.co.il/sitemap.xml
