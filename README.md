@@ -18,25 +18,6 @@ robots.txt              crawler rules + sitemap pointer
 sitemap.xml             one entry; add a <url> per page as pages are added
 ```
 
-## ⚠ Not launched
-
-This site is **not ready for public launch**. `robots.txt` disallows all
-crawling and `index.html` carries `<meta name="robots" content="noindex,
-nofollow">`.
-
-**To actually take it offline**, do one of these in Vercel — the repo cannot do
-it, since the repo only controls what gets served, not whether it is served:
-
-| Approach | Effect |
-|---|---|
-| Settings → Deployment Protection → Vercel Authentication | Stays deployed, only you can view it. **Most reversible.** |
-| Settings → Domains → remove the domain | Frees `thewanderingbrew.co.il`; the `*.vercel.app` URL stays live |
-| Settings → delete the project | Removes everything, including the domain link |
-| Remove the DNS records at the registrar | Fastest kill, but DNS caches can keep it reachable for a while |
-
-**When launching**, reverse the three things above: drop `Disallow: /`, restore
-the `Sitemap:` line, and delete the `noindex` meta tag.
-
 ## Age gate
 
 An 18+ confirmation covers the page on first visit and is remembered in

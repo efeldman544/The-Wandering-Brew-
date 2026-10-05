@@ -1,7 +1,4 @@
-# Site is not ready for launch — keep it out of search results.
-# To go live: delete the Disallow line, restore the Sitemap line below,
-# and remove the noindex meta tag from index.html.
 User-agent: *
-Disallow: /
+Allow: /
 
-# Sitemap: https://thewanderingbrew.co.il/sitemap.xml
+Sitemap: https://thewanderingbrew.co.il/sitemap.xml
