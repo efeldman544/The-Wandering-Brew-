@@ -247,10 +247,75 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 .foot-legal{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;opacity:.55;border-top:1px solid rgba(255,255,255,.16);padding-top:1.25rem}
 .shout{color:var(--gold);opacity:1}
 
+
+/* ---------- age gate ---------- */
+.agegate{display:none}
+.needs-age-check .agegate{
+  display:grid;place-items:center;
+  position:fixed;inset:0;z-index:2000;
+  background:var(--plaster);
+  padding:var(--gutter);
+  overflow:auto;
+}
+.needs-age-check body{overflow:hidden}
+.agegate-inner{
+  position:relative;z-index:1;
+  max-width:30rem;text-align:center;
+}
+.agegate .mark-lg{
+  display:flex;align-items:baseline;gap:.4rem;justify-content:center;
+  margin-bottom:clamp(1.75rem,5vw,2.75rem);
+}
+.agegate .mark-lg .script{font-family:var(--script);font-size:clamp(1.3rem,4vw,1.9rem);color:var(--gold);line-height:1}
+.agegate .mark-lg .name{font-family:var(--display);font-size:clamp(1.5rem,5vw,2.4rem);text-transform:uppercase;line-height:1}
+.agegate h2{font-size:clamp(1.8rem,6vw,2.8rem);margin-bottom:1rem}
+.agegate p{color:var(--ink-2);margin-bottom:clamp(1.75rem,4vw,2.5rem)}
+.agegate-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center}
+.agegate button{
+  font-family:var(--body);font-size:.6875rem;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+  padding:.95rem 1.5rem;border:2px solid var(--ink);
+  background:var(--ink);color:var(--plaster);
+  transition:background .18s ease,color .18s ease;
+}
+.agegate button.no{background:transparent;color:var(--ink)}
+.agegate button:hover{background:var(--orchid);border-color:var(--orchid);color:#fff}
+.agegate .denied{
+  display:none;margin-top:1.5rem;padding-top:1.5rem;
+  border-top:1px solid var(--line);color:var(--ink-2);
+}
+.agegate.is-denied .agegate-actions{display:none}
+.agegate.is-denied .denied{display:block}
+.agegate .legal{margin-top:2rem;font-size:.75rem;opacity:.6;letter-spacing:.04em}
+
 @media (prefers-reduced-motion: reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 </style>
+<script>
+(function(){
+  try{ if(localStorage.getItem('twb-age-ok') === '1') return; }catch(e){}
+  document.documentElement.className += ' needs-age-check';
+})();
+</script>
 </head>
 <body>
+<div class="agegate" id="agegate" role="dialog" aria-modal="true" aria-labelledby="agegate-q">
+  <div class="blob teal" aria-hidden="true"></div>
+  <div class="blob orchid" aria-hidden="true"></div>
+  <div class="agegate-inner">
+    <div class="mark-lg"><span class="script">The</span><span class="name">Wandering Brew</span></div>
+    <h2 id="agegate-q">Are you 18 or over?</h2>
+    <p>You need to be of legal drinking age to visit this site.</p>
+    <div class="agegate-actions">
+      <button type="button" id="age-yes">Yes, I am 18 or over</button>
+      <button type="button" class="no" id="age-no">No</button>
+    </div>
+    <div class="denied">
+      <p style="margin:0">Come back when you are 18. We will still be here, probably with a new beer.</p>
+    </div>
+    <div class="legal lbl">Please drink responsibly</div>
+  </div>
+</div>
+
 <header class="topbar">
   <div class="wrap">
     <a class="mark" href="#top"><span class="script">The</span><span class="name">Wandering Brew</span></a>
@@ -406,24 +471,24 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
     <div class="wrap">
       <div>
         <h2>Find us</h2>
-        <p>Small batches go quickly and they go locally. Here is where to get hold of a bottle.</p>
+        <p>Batches are small and they go quickly. The fastest way to get hold of a bottle is to ask us directly.</p>
         <div class="slot">
           <div class="lbl">Get in touch</div>
-          <a href="mailto:hello@thewanderingbrew.com">hello@thewanderingbrew.com</a>
+          <a href="mailto:hello@thewanderingbrew.co.il">hello@thewanderingbrew.co.il</a>
         </div>
         <div class="slot">
           <div class="lbl">Follow</div>
-          <a href="#find">@thewanderingbrew</a>
+          <a href="https://instagram.com/thewanderingbrew" rel="me noopener">@thewanderingbrew</a>
         </div>
       </div>
       <div>
-        <div class="lbl" style="opacity:.65">Stockists</div>
-        <ul>
-          <li><b>Your stockist here</b><span>Add the shops that carry it</span></li>
-          <li><b>Your stockist here</b><span>Bar, bottle shop or grocer</span></li>
-          <li><b>Your stockist here</b><span>Add as many as you like</span></li>
-        </ul>
-        <p style="margin-top:1.25rem;font-size:.9rem;opacity:.8">Not stocked near you? Tell us the shop and we will send them a sample.</p>
+        <div class="lbl" style="opacity:.65">Stock our beer</div>
+        <p style="margin-top:1rem">If you run a bar, a bottle shop or a kitchen and want to pour something that
+          nobody else on your list is pouring, get in touch and we will bring you samples.</p>
+        <div class="slot">
+          <div class="lbl">Trade enquiries</div>
+          <a href="mailto:hello@thewanderingbrew.co.il?subject=Stocking%20The%20Wandering%20Brew">Send us a note</a>
+        </div>
       </div>
     </div>
   </section>
@@ -446,5 +511,26 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
     </div>
   </div>
 </footer>
+<script>
+(function(){
+  var gate = document.getElementById('agegate');
+  if(!gate) return;
+  var root = document.documentElement;
+  function pass(){
+    try{ localStorage.setItem('twb-age-ok','1'); }catch(e){}
+    root.className = root.className.replace(/\s*needs-age-check/,'');
+  }
+  document.getElementById('age-yes').addEventListener('click', pass);
+  document.getElementById('age-no').addEventListener('click', function(){
+    gate.className = 'agegate is-denied';
+  });
+  if(root.className.indexOf('needs-age-check') !== -1){
+    document.getElementById('age-yes').focus();
+  }
+})();
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
