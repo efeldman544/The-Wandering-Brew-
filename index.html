@@ -102,8 +102,6 @@ img{display:block}
 .mark{text-decoration:none;margin-right:auto;display:flex;align-items:baseline;gap:.3rem;white-space:nowrap}
 .mark .script{font-size:1.25rem;color:var(--gold);line-height:1}
 .mark .name{font-family:var(--display);font-size:1.15rem;text-transform:uppercase;letter-spacing:.01em}
-.topbar .mark{transition:opacity .25s ease}
-.topbar.at-top .mark{opacity:0;pointer-events:none}
 .topbar nav{display:flex;gap:1.35rem;flex-wrap:wrap;align-items:center}
 .topbar nav a{
   text-decoration:none;color:var(--ink-2);
@@ -525,16 +523,6 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
   if(root.className.indexOf('needs-age-check') !== -1){
     document.getElementById('age-yes').focus();
   }
-})();
-</script>
-<script>
-(function(){
-  var bar = document.querySelector('.topbar'), opener = document.querySelector('.opener');
-  if(!bar || !opener || !('IntersectionObserver' in window)) return;
-  bar.classList.add('at-top');
-  new IntersectionObserver(function(e){
-    bar.classList.toggle('at-top', e[0].isIntersecting);
-  }, {rootMargin:'-70px 0px 0px 0px'}).observe(opener);
 })();
 </script>
 </body>
