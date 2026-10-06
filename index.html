@@ -110,6 +110,24 @@ img{display:block}
 }
 .topbar nav a:hover{color:var(--ink);border-bottom-color:var(--orchid)}
 
+/* ---------- opener ---------- */
+.opener{background:var(--plaster);border-bottom:1px solid var(--line)}
+.opener .wrap{padding-block:clamp(3rem,9vw,6.5rem)}
+.wordmark{line-height:.95}
+.wordmark .script{
+  font-family:var(--script);text-transform:none;
+  font-size:clamp(1.6rem,4.6vw,3.4rem);color:var(--gold);
+  margin-right:.18em;
+}
+.wordmark .name{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(1.9rem,8.4vw,6.4rem);letter-spacing:.005em;
+}
+.opener-line{
+  margin-top:clamp(1.25rem,3vw,1.75rem);
+  font-size:clamp(1.05rem,2vw,1.4rem);color:var(--ink-2);max-width:36ch;
+}
+
 /* ---------- hero ---------- */
 .hero{position:relative;overflow:hidden;background:var(--plaster-2)}
 .blob{position:absolute;border-radius:50%;pointer-events:none}
@@ -127,9 +145,9 @@ img{display:block}
   display:inline-block;background:var(--gold);color:#2B2008;
   padding:.4rem .85rem;margin-bottom:clamp(1.1rem,2.5vw,1.6rem);
 }
-.hero h1{font-size:clamp(2.6rem,7.6vw,5.4rem);line-height:.88}
-.hero h1 .j{color:var(--orchid);display:block}
-.hero h1 .s{color:var(--cyan);display:block}
+.hero h2{font-size:clamp(2.6rem,7.6vw,5.4rem);line-height:.88}
+.hero h2 .j{color:var(--orchid);display:block}
+.hero h2 .s{color:var(--cyan);display:block}
 .brush{display:block;width:clamp(180px,52%,400px);height:auto;margin-top:.6rem}
 .hero .blurb{
   margin-top:clamp(1.25rem,3vw,1.75rem);
@@ -300,6 +318,13 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 
 <main id="top">
 
+  <section class="opener">
+    <div class="wrap">
+      <h1 class="wordmark"><span class="script">The</span><span class="name">Wandering Brew</span></h1>
+      <p class="opener-line">A home brew that got out of hand. Four beers so far.</p>
+    </div>
+  </section>
+
   <div class="hero">
     <div class="blob teal" aria-hidden="true"></div>
     <div class="blob orchid" aria-hidden="true"></div>
@@ -309,7 +334,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
       </div>
       <div>
         <div class="tag lbl">New release</div>
-        <h1><span class="j">Jerusalem</span><span class="s">Syndrome</span></h1>
+        <h2><span class="j">Jerusalem</span><span class="s">Syndrome</span></h2>
         <svg class="brush" viewBox="0 0 320 16" aria-hidden="true">
           <path d="M3 11 C60 4, 120 13, 178 7 C226 2, 274 10, 316 5"
                 fill="none" stroke="var(--gold)" stroke-width="7" stroke-linecap="round"/>
