@@ -6,8 +6,7 @@
 <title>The Wandering Brew — small batch craft beer</title>
 <meta name="description" content="Small batch craft beer. Jerusalem Syndrome, The Wandering Brew, Pour Decisions and King of the Hill.">
 <link rel="canonical" href="https://thewanderingbrew.co.il/">
-<meta name="theme-color" content="#F1E8DF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#171310" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F1E8DF">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -23,7 +22,7 @@
 
 <style>
 /* baseline the artifact host used to provide */
-:root{color-scheme:light dark}
+:root{color-scheme:light}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0}
@@ -65,34 +64,6 @@ img{max-width:100%}
   --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)'/%3E%3C/svg%3E");
   --noise-opacity:.07;
   --noise-blend:multiply;
-}
-:root:not([data-theme="light"]){
-  @media (prefers-color-scheme: dark){
-    --plaster:#171310;
-    --plaster-2:#211B16;
-    --ink:#F4ECE3;
-    --ink-2:#C0B4A9;
-    --muted:#8E8177;
-    --line:#332A23;
-    --orchid:#D177E2;
-    --cyan:#4FBEE4;
-    --gold:#EAC05E;
-    --noise-opacity:.05;
-    --noise-blend:screen;
-  }
-}
-:root[data-theme="dark"]{
-  --plaster:#171310;
-  --plaster-2:#211B16;
-  --ink:#F4ECE3;
-  --ink-2:#C0B4A9;
-  --muted:#8E8177;
-  --line:#332A23;
-  --orchid:#D177E2;
-  --cyan:#4FBEE4;
-  --gold:#EAC05E;
-  --noise-opacity:.05;
-  --noise-blend:screen;
 }
 
 *{box-sizing:border-box}
