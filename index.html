@@ -113,21 +113,67 @@ img{display:block}
 .topbar nav a:hover{color:var(--ink);border-bottom-color:var(--orchid)}
 
 /* ---------- opener ---------- */
-.opener{background:var(--plaster);border-bottom:1px solid var(--line)}
-.opener .wrap{padding-block:clamp(3rem,9vw,6.5rem)}
+.opener{
+  position:relative;overflow:hidden;
+  background:var(--teal);color:#fff;
+  min-height:clamp(430px,64vh,640px);
+  display:flex;align-items:center;
+}
+.opener .wrap{position:relative;z-index:2;padding-block:clamp(2.5rem,6vw,4rem)}
+.opener-copy{max-width:min(46%,520px)}
 .wordmark{line-height:.95}
 .wordmark .script{
   font-family:var(--script);text-transform:none;
-  font-size:clamp(1.6rem,4.6vw,3.4rem);color:var(--gold);
+  font-size:clamp(1.6rem,4.4vw,3.2rem);color:var(--gold);
   margin-right:.18em;
 }
 .wordmark .name{
   font-family:var(--display);text-transform:uppercase;
-  font-size:clamp(1.9rem,8.4vw,6.4rem);letter-spacing:.005em;
+  font-size:clamp(1.9rem,5.6vw,4.4rem);letter-spacing:.005em;
 }
 .opener-line{
-  margin-top:clamp(1.25rem,3vw,1.75rem);
-  font-size:clamp(1.05rem,2vw,1.4rem);color:var(--ink-2);max-width:36ch;
+  margin-top:clamp(1rem,2.4vw,1.5rem);
+  font-size:clamp(1.02rem,1.7vw,1.3rem);max-width:30ch;opacity:.92;
+}
+.cta{
+  display:inline-block;margin-top:clamp(1.5rem,3.2vw,2.1rem);
+  background:#fff;color:var(--ink);text-decoration:none;
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(.92rem,1.3vw,1.1rem);letter-spacing:.015em;
+  padding:.95rem 1.6rem;
+  transition:background .18s ease,color .18s ease;
+}
+.cta:hover{background:var(--gold);color:#2B2008}
+.opener-bottles{
+  position:absolute;z-index:1;
+  right:0;bottom:-26px;
+  width:auto;left:44%;
+  display:flex;align-items:flex-end;justify-content:flex-end;
+  gap:clamp(2px,0.9vw,14px);
+  padding-right:var(--gutter);
+  pointer-events:none;
+}
+.opener-bottles img{
+  height:clamp(230px,min(48vh,34vw),500px);width:auto;flex:0 0 auto;
+  filter:drop-shadow(0 18px 28px rgba(0,0,0,.32));
+}
+.opener-bottles img:nth-child(1){height:clamp(246px,min(51vh,36vw),536px)}
+.opener-bottles img:nth-child(2){height:clamp(217px,min(45vh,32vw),470px)}
+.opener-bottles img:nth-child(3){height:clamp(254px,min(53vh,37vw),552px)}
+.opener-bottles img:nth-child(4){height:clamp(210px,min(44vh,31vw),456px)}
+@media (max-width:860px){
+  .opener{display:block;min-height:0}
+  .opener-copy{max-width:none}
+  .opener-bottles{
+    position:static;left:auto;margin-top:clamp(1.75rem,6vw,2.5rem);
+    justify-content:center;padding-right:0;gap:4px;
+  }
+  .opener-bottles img,
+  .opener-bottles img:nth-child(1),
+  .opener-bottles img:nth-child(2),
+  .opener-bottles img:nth-child(3),
+  .opener-bottles img:nth-child(4){height:auto;width:23%;margin-bottom:0}
+  .opener .wrap{padding-bottom:0}
 }
 
 /* ---------- hero ---------- */
@@ -322,8 +368,17 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 
   <section class="opener">
     <div class="wrap">
-      <h1 class="wordmark"><span class="script">The</span><span class="name">Wandering Brew</span></h1>
-      <p class="opener-line">A home brew that got out of hand.</p>
+      <div class="opener-copy">
+        <h1 class="wordmark"><span class="script">The</span><span class="name">Wandering Brew</span></h1>
+        <p class="opener-line">A home brew that got out of hand.</p>
+        <a class="cta" href="#find">Where to find it</a>
+      </div>
+    </div>
+    <div class="opener-bottles" aria-hidden="true">
+      <img src="img/bottle-king-of-the-hill.png" alt="">
+      <img src="img/bottle-pour-decisions.png" alt="">
+      <img src="img/bottle-wandering-brew.png" alt="">
+      <img src="img/bottle-jerusalem-syndrome.png" alt="">
     </div>
   </section>
 
