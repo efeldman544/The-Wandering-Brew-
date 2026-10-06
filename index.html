@@ -117,19 +117,23 @@ img{display:block}
 .blob.orchid{width:clamp(120px,15vw,215px);aspect-ratio:1;background:var(--orchid);bottom:calc(-1 * clamp(60px,7.5vw,105px));left:calc(-1 * clamp(45px,6vw,85px))}
 .hero .wrap{
   position:relative;z-index:1;
-  padding-block:clamp(3rem,8vw,6rem);
+  display:grid;
+  grid-template-columns:minmax(0,330px) minmax(0,1fr);
+  gap:clamp(1.5rem,5vw,4rem);
+  align-items:center;
+  padding-block:clamp(2.5rem,6vw,4.5rem);
 }
 .tag{
   display:inline-block;background:var(--gold);color:#2B2008;
   padding:.4rem .85rem;margin-bottom:clamp(1.1rem,2.5vw,1.6rem);
 }
-.hero h1{font-size:clamp(3rem,12vw,8.5rem);line-height:.86}
+.hero h1{font-size:clamp(2.6rem,7.6vw,5.4rem);line-height:.88}
 .hero h1 .j{color:var(--orchid);display:block}
 .hero h1 .s{color:var(--cyan);display:block}
-.brush{display:block;width:clamp(220px,46%,560px);height:auto;margin-top:.6rem}
+.brush{display:block;width:clamp(180px,52%,400px);height:auto;margin-top:.6rem}
 .hero .blurb{
-  margin-top:clamp(1.25rem,3vw,1.9rem);
-  font-size:clamp(1.05rem,1.8vw,1.3rem);color:var(--ink-2);max-width:46ch;
+  margin-top:clamp(1.25rem,3vw,1.75rem);
+  font-size:clamp(1rem,1.5vw,1.15rem);color:var(--ink-2);max-width:46ch;
 }
 .hero .meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem;color:var(--muted)}
 .hero .meta b{color:var(--ink);font-weight:600}
@@ -252,6 +256,15 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 .agegate.is-denied .denied{display:block}
 .agegate .legal{margin-top:2rem;font-size:.75rem;opacity:.6;letter-spacing:.04em}
 
+.hero-art img{
+  width:min(300px,82%);height:auto;margin-inline:auto;
+  filter:drop-shadow(0 26px 32px rgba(36,22,64,.3));
+}
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-art{order:2}
+}
+
 @media (prefers-reduced-motion: reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 </style>
 <script>
@@ -297,6 +310,9 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
     <div class="blob teal" aria-hidden="true"></div>
     <div class="blob orchid" aria-hidden="true"></div>
     <div class="wrap">
+      <div class="hero-art">
+        <img src="img/bottle-jerusalem-syndrome.png" alt="A bottle of Jerusalem Syndrome, its watercolour hamsa label on plaster.">
+      </div>
       <div>
         <div class="tag lbl">New release</div>
         <h1><span class="j">Jerusalem</span><span class="s">Syndrome</span></h1>
@@ -304,35 +320,17 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
           <path d="M3 11 C60 4, 120 13, 178 7 C226 2, 274 10, 316 5"
                 fill="none" stroke="var(--gold)" stroke-width="7" stroke-linecap="round"/>
         </svg>
-        <p class="blurb">Some people come to Jerusalem and find enlightenment. We found a really good hazy IPA. Close enough.</p>
-        <div class="meta lbl">
-          <span><b>Hazy IPA</b></span>
-          <span>Out now</span>
+        <p class="blurb">They say the city does something to people. We spent a summer brewing in it and came out with a hazy IPA — soft, loaded with hops, and suspiciously easy to finish. Make of that what you will.</p>
+        <div class="specs lbl" style="--hair:var(--line)">
+          <div><span class="k">ABV</span><span class="v">5.3%</span></div>
+          <div><span class="k">Style</span><span class="v">Hazy IPA</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <article class="beer" id="beers" style="--bg:var(--plaster);--fg:var(--ink);--accent:var(--orchid);--hair:var(--line)">
-    <div class="wrap">
-      <div class="media">
-        <div class="bottle">
-          <img src="img/bottle-jerusalem-syndrome.png" alt="A bottle of Jerusalem Syndrome, its watercolour hamsa label on plaster.">
-        </div>
-      </div>
-      <div>
-        <h3>Jerusalem <span style="color:var(--cyan)">Syndrome</span></h3>
-        <div class="style lbl">Hazy IPA</div>
-        <p class="desc">They say the city does something to people. We spent a summer brewing in it and came out with a hazy IPA — soft, loaded with hops, and suspiciously easy to finish. Make of that what you will.</p>
-        <div class="specs lbl">
-          <div><span class="k">ABV</span><span class="v">5.3%</span></div>
-          <div><span class="k">Style</span><span class="v">Hazy</span></div>
-        </div>
-      </div>
-    </div>
-  </article>
 
-  <article class="beer flip" style="--bg:var(--cosmic);--fg:#F0E9F5;--accent:var(--fire);--hair:rgba(240,233,245,.25)">
+  <article class="beer flip" id="beers" style="--bg:var(--cosmic);--fg:#F0E9F5;--accent:var(--fire);--hair:rgba(240,233,245,.25)">
     <div class="wrap">
       <div class="media">
         <div class="bottle">
