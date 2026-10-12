@@ -255,13 +255,18 @@ img{display:block}
 .qty-n::-webkit-outer-spin-button,.qty-n::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .soldout{display:inline-block;padding:.75rem 1.1rem;border:1px solid var(--hair,var(--line));opacity:.6}
 .buy-note{margin-top:.9rem;font-size:.9rem;line-height:1.55;opacity:.72;max-width:42ch}
-.cartlink{
-  display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--ink);
-  font-size:.6875rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-  border:2px solid var(--ink);padding:.45rem .75rem;line-height:1;
+/* scoped to beat .topbar nav a, which otherwise wins on specificity and
+   knocks out the bottom border and the padding */
+.topbar nav a.cartlink{
+  display:inline-flex;align-items:center;gap:.3rem;
+  color:var(--ink);border:2px solid var(--ink);
+  padding:.5rem .8rem;line-height:1;
 }
-.cartlink:hover{background:var(--ink);color:var(--plaster)}
-.cart-n{font-family:var(--display);font-size:1rem;letter-spacing:0}
+.topbar nav a.cartlink:hover{
+  background:rgba(36,31,29,.07);color:var(--ink);border-color:var(--ink);
+}
+.cart-n{font-weight:700;letter-spacing:.02em}
+.cart-n i{font-style:normal}
 
 /* ---------- story ---------- */
 .story .wrap{padding-block:clamp(3rem,7vw,5.5rem)}
@@ -389,7 +394,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
       <a href="#beers">The beers</a>
       <a href="#story">Our story</a>
       <a href="#find">Find us</a>
-      <a class="cartlink" href="checkout.html">Cart <span class="cart-n" data-cart-count>0</span></a>
+      <a class="cartlink" href="checkout.html">Cart <span class="cart-n">(<i data-cart-count>0</i>)</span></a>
     </nav>
   </div>
 </header>
