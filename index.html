@@ -389,7 +389,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
       <a href="#beers">The beers</a>
       <a href="#story">Our story</a>
       <a href="#find">Find us</a>
-      <a class="cartlink" href="checkout.html" data-cart-link hidden>Cart <span class="cart-n" data-cart-count>0</span></a>
+      <a class="cartlink" href="checkout.html">Cart <span class="cart-n" data-cart-count>0</span></a>
     </nav>
   </div>
 </header>
@@ -439,7 +439,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
           </div>
           <button type="button" class="btn" data-add="jerusalem-syndrome">Add to cart</button>
         </div>
-        <p class="buy-note">Sold by the bottle, collection only. Send the order and we will message you back to agree a price and a time to come and get it.</p>
+        <p class="buy-note">Sold by the bottle, collection only. Send an order over and we will message you back to sort out a time.</p>
       </div>
     </div>
   </div>
@@ -602,7 +602,6 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
     var c = read(), n = 0, k;
     for(k in c){ n += c[k]; }
     Array.prototype.forEach.call(document.querySelectorAll('[data-cart-count]'), function(el){ el.textContent = n; });
-    Array.prototype.forEach.call(document.querySelectorAll('[data-cart-link]'), function(el){ el.hidden = n === 0; });
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('.qty-btn'), function(b){

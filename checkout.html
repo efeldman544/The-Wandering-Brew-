@@ -138,15 +138,15 @@ footer .lbl{opacity:.6}
 <main>
   <div class="wrap">
     <h1>Your order</h1>
-    <p class="lede">Collection only. Send this through and we will message you back to agree a price and a time to come and get it &mdash; nothing is charged here.</p>
+    <p class="lede">Collection only. Send it over and we will message you back to sort out a time.</p>
 
     <div class="cols" id="cols">
       <section aria-labelledby="h-order">
-        <h2 id="h-order">What you are taking</h2>
+        <h2 id="h-order">The beer</h2>
         <div id="lines"></div>
         <div class="empty" id="empty" hidden>
-          <p>Nothing in the order yet.</p>
-          <p style="margin-top:1rem"><a href="index.html#beers">Back to the beers</a></p>
+          <p>Nothing here yet.</p>
+          <p style="margin-top:1rem"><a href="index.html#beers">Have a look at the beers</a></p>
         </div>
         <div class="total" id="total" hidden>
           <span class="lbl" style="align-self:center">Bottles</span>
@@ -155,17 +155,17 @@ footer .lbl{opacity:.6}
       </section>
 
       <section aria-labelledby="h-you" id="form-side">
-        <h2 id="h-you">Where to send it</h2>
+        <h2 id="h-you">Your details</h2>
         <form id="order-form" novalidate>
           <div class="field" id="f-name">
             <label class="lbl" for="name">Name</label>
             <input id="name" name="name" autocomplete="name" required>
-            <div class="err">We need a name to put on it.</div>
+            <div class="err">We need a name for the order.</div>
           </div>
           <div class="field" id="f-phone">
             <label class="lbl" for="phone">Phone</label>
             <input id="phone" name="phone" type="tel" autocomplete="tel" required>
-            <div class="err">We need a number to message you back on.</div>
+            <div class="err">We need a number to reach you on.</div>
           </div>
           <div class="field" id="f-email">
             <label class="lbl" for="email">Email <span class="opt">optional</span></label>
@@ -173,20 +173,19 @@ footer .lbl{opacity:.6}
           </div>
           <div class="field">
             <label class="lbl" for="notes">Anything else <span class="opt">optional</span></label>
-            <textarea id="notes" name="notes" placeholder="When you are around, who it is for, that sort of thing."></textarea>
+            <textarea id="notes" name="notes" placeholder="When you are around, who it is for — whatever helps."></textarea>
           </div>
           <button class="btn" type="submit">Send the order</button>
-          <p class="note">This opens your mail app with the order already written out. If it does not open, the same text is shown here to copy.</p>
         </form>
       </section>
     </div>
 
     <div class="sent" id="sent" hidden>
-      <h2>That is on its way</h2>
-      <p>Your mail app should have opened with the order in it &mdash; press send and we will come back to you. If nothing opened, copy the text below and send it to
+      <h2>One more tap</h2>
+      <p>Your order is sitting in your mail app ready to go &mdash; send it and we will be in touch. If nothing opened, copy it from here and send it to
         <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>.</p>
       <pre id="sent-text"></pre>
-      <button class="btn" type="button" id="copy">Copy the text</button>
+      <button class="btn" type="button" id="copy">Copy it</button>
     </div>
   </div>
 </main>
@@ -305,7 +304,7 @@ footer .lbl{opacity:.6}
   }
 
   function orderText(d){
-    var cart = read(), out = ['Order from thewanderingbrew.co.il', ''];
+    var cart = read(), out = ['Order \u2014 The Wandering Brew', ''];
     Object.keys(cart).forEach(function(id){
       out.push(cart[id] + ' x ' + PRODUCTS[id].name + ' (' + PRODUCTS[id].style + ')');
     });
@@ -345,7 +344,7 @@ footer .lbl{opacity:.6}
 
   document.getElementById('copy').addEventListener('click', function(){
     var b = this;
-    function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy the text'; }, 1800); }
+    function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy it'; }, 1800); }
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(sentText.textContent).then(done, function(){});
       return;
