@@ -232,6 +232,37 @@ img{display:block}
 }
 .tbc{opacity:.55;font-style:italic;text-transform:none;letter-spacing:0;font-family:var(--body);font-size:1rem}
 
+/* ---------- buying ---------- */
+.buy{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1.6rem}
+.btn{
+  font-family:var(--body);font-size:.6875rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;line-height:1;
+  background:var(--ink);color:var(--plaster);
+  border:0;padding:1rem 1.6rem;cursor:pointer;transition:opacity .18s ease;
+}
+.btn:hover{opacity:.84}
+.btn.is-done{background:var(--teal)}
+.qty{display:flex;align-items:center;border:2px solid var(--hair,var(--line))}
+.qty-btn{
+  font-family:var(--body);font-size:1.15rem;line-height:1;
+  background:none;border:0;color:inherit;cursor:pointer;width:2.3rem;height:2.9rem;
+}
+.qty-n{
+  width:2.8rem;height:2.9rem;text-align:center;padding:0;
+  font-family:var(--display);font-size:1.3rem;
+  background:none;border:0;color:inherit;-moz-appearance:textfield;
+}
+.qty-n::-webkit-outer-spin-button,.qty-n::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.soldout{display:inline-block;padding:.75rem 1.1rem;border:1px solid var(--hair,var(--line));opacity:.6}
+.buy-note{margin-top:.9rem;font-size:.9rem;line-height:1.55;opacity:.72;max-width:42ch}
+.cartlink{
+  display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--ink);
+  font-size:.6875rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  border:2px solid var(--ink);padding:.45rem .75rem;line-height:1;
+}
+.cartlink:hover{background:var(--ink);color:var(--plaster)}
+.cart-n{font-family:var(--display);font-size:1rem;letter-spacing:0}
+
 /* ---------- story ---------- */
 .story .wrap{padding-block:clamp(3rem,7vw,5.5rem)}
 .pull{
@@ -256,6 +287,15 @@ img{display:block}
 .find ul{list-style:none;margin:1.25rem 0 0;padding:0;display:grid;gap:0}
 .find li{padding-block:.8rem;border-bottom:1px solid rgba(255,255,255,.22);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .find li span{opacity:.72;font-size:.9rem}
+.find-grid{display:grid;gap:clamp(2rem,5vw,4rem);grid-template-columns:minmax(0,1fr)}
+.find.has-map .find-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}
+@media (max-width:820px){.find.has-map .find-grid{grid-template-columns:1fr}}
+.map-lbl{opacity:.65;margin-bottom:.75rem}
+.map-frame{
+  position:relative;aspect-ratio:4/3;
+  border:2px solid rgba(255,255,255,.35);background:rgba(0,0,0,.12);
+}
+.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 
 /* ---------- footer ---------- */
 footer{background:#241F1D;color:#F1E8DF}
@@ -349,6 +389,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
       <a href="#beers">The beers</a>
       <a href="#story">Our story</a>
       <a href="#find">Find us</a>
+      <a class="cartlink" href="checkout.html" data-cart-link hidden>Cart <span class="cart-n" data-cart-count>0</span></a>
     </nav>
   </div>
 </header>
@@ -384,11 +425,21 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
           <path d="M3 11 C60 4, 120 13, 178 7 C226 2, 274 10, 316 5"
                 fill="none" stroke="var(--gold)" stroke-width="7" stroke-linecap="round"/>
         </svg>
-        <p class="blurb">Some people come to Jerusalem and find enlightenment. We made a hazy IPA. Close enough.</p>
+        <p class="blurb">Jerusalem syndrome is a documented thing: visitors arrive in the city, something shifts, and for a few days they are entirely certain they have understood something enormous. It passes. We could not bottle the revelation, so we bottled the part just before it — hazy, generous and a little overconfident. Some people come to Jerusalem and find enlightenment. We think this is close enough.</p>
         <div class="specs lbl" style="--hair:var(--line)">
           <div><span class="k">ABV</span><span class="v">5.3%</span></div>
           <div><span class="k">Style</span><span class="v">Hazy IPA</span></div>
         </div>
+        <div class="buy">
+          <div class="qty" role="group" aria-label="Number of bottles">
+            <button type="button" class="qty-btn" data-step="-1" aria-label="One fewer">&minus;</button>
+            <input class="qty-n" id="qty-jerusalem-syndrome" type="number" inputmode="numeric"
+                   min="1" max="24" step="1" value="1" aria-label="Bottles">
+            <button type="button" class="qty-btn" data-step="1" aria-label="One more">+</button>
+          </div>
+          <button type="button" class="btn" data-add="jerusalem-syndrome">Add to cart</button>
+        </div>
+        <p class="buy-note">Sold by the bottle, collection only. Send the order and we will message you back to agree a price and a time to come and get it.</p>
       </div>
     </div>
   </div>
@@ -409,6 +460,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
           <div><span class="k">ABV</span><span class="v">8.7%</span></div>
           <div><span class="k">Style</span><span class="v">DIPA</span></div>
         </div>
+        <div class="buy"><span class="soldout lbl">Sold out</span></div>
       </div>
     </div>
   </article>
@@ -433,6 +485,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
           <span class="note">Grapefruit</span>
           <span class="note">Papaya</span>
         </div>
+        <div class="buy"><span class="soldout lbl">Sold out</span></div>
       </div>
     </div>
   </article>
@@ -457,6 +510,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
           <span class="note">Melon</span>
           <span class="note">Tangerine</span>
         </div>
+        <div class="buy"><span class="soldout lbl">Sold out</span></div>
       </div>
     </div>
   </article>
@@ -480,12 +534,22 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 
   <section class="find" id="find">
     <div class="wrap">
-      <div>
-        <h2>Find us</h2>
-        <p>Batches are small and they disappear quickly. The fastest way to get hold of a bottle is to ask us directly — we are not hard to find, and we like being asked.</p>
-        <div class="slot">
-          <div class="lbl">Get in touch</div>
-          <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>
+      <div class="find-grid">
+        <div>
+          <h2>Find us</h2>
+          <p>Batches are small and they disappear quickly. The fastest way to get hold of a bottle is to ask us directly — we are not hard to find, and we like being asked.</p>
+          <div class="slot">
+            <div class="lbl">Get in touch</div>
+            <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>
+          </div>
+        </div>
+        <div class="map" data-map hidden>
+          <div class="lbl map-lbl">Shops carrying it</div>
+          <div class="map-frame">
+            <iframe title="Map of the shops carrying The Wandering Brew"
+                    loading="lazy" allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -523,6 +587,64 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
   if(root.className.indexOf('needs-age-check') !== -1){
     document.getElementById('age-yes').focus();
   }
+})();
+</script>
+<script>
+/* cart - product ids match the PRODUCTS table in checkout.html */
+(function(){
+  var KEY = 'twb-cart', MAX = 24;
+
+  function read(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+  function write(c){ try{ localStorage.setItem(KEY, JSON.stringify(c)); }catch(e){} paint(); }
+  function clamp(v){ return Math.min(MAX, Math.max(1, v || 1)); }
+
+  function paint(){
+    var c = read(), n = 0, k;
+    for(k in c){ n += c[k]; }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cart-count]'), function(el){ el.textContent = n; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cart-link]'), function(el){ el.hidden = n === 0; });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.qty-btn'), function(b){
+    b.addEventListener('click', function(){
+      var input = b.parentNode.querySelector('.qty-n');
+      input.value = clamp((parseInt(input.value, 10) || 1) + parseInt(b.getAttribute('data-step'), 10));
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-add]'), function(b){
+    b.addEventListener('click', function(){
+      var id = b.getAttribute('data-add');
+      var input = document.getElementById('qty-' + id);
+      var cart = read();
+      cart[id] = Math.min(MAX, (cart[id] || 0) + clamp(parseInt(input && input.value, 10)));
+      write(cart);
+      b.textContent = 'Added';
+      b.className = 'btn is-done';
+      clearTimeout(b._t);
+      b._t = setTimeout(function(){ b.textContent = 'Add to cart'; b.className = 'btn'; }, 1800);
+    });
+  });
+
+  paint();
+})();
+</script>
+<script>
+/* Stockist map.
+   Build the map once at google.com/mymaps: drop a pin on every shop that carries
+   the beer, set the map to "Anyone with the link", then Share > Embed on my site
+   and copy the value of mid= out of the iframe Google gives you. Paste that value
+   between the quotes below and the map appears in Find us. Adding a shop after
+   that is a pin on the map - nothing here has to change.
+   Leave it empty and the map stays hidden rather than showing a broken frame. */
+(function(){
+  var MAP_ID = '';
+  if(!MAP_ID) return;
+  var box = document.querySelector('[data-map]');
+  if(!box) return;
+  box.querySelector('iframe').src = 'https://www.google.com/maps/d/embed?mid=' + encodeURIComponent(MAP_ID);
+  box.hidden = false;
+  document.querySelector('.find').className = 'find has-map';
 })();
 </script>
 </body>

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your order — The Wandering Brew</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F1E8DF">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300..700&family=Yellowtail&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --plaster:#F1E8DF; --plaster-2:#E7DCD1;
+  --ink:#241F1D; --ink-2:#5B524C; --muted:#8C8078; --line:#D9CCC0;
+  --orchid:#C15CD6; --cyan:#35AAD3; --gold:#D9AB41; --teal:#1C7F92;
+  --display:"Anton","Arial Narrow",Impact,sans-serif;
+  --script:"Yellowtail",cursive;
+  --body:"Outfit","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --wrap:1200px;
+  --gutter:clamp(18px,4vw,56px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--plaster);color:var(--ink);
+  font-family:var(--body);font-size:1rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+p{margin:0}
+a{color:inherit}
+[hidden]{display:none!important}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.94}
+:focus-visible{outline:3px solid var(--orchid);outline-offset:3px}
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.script{font-family:var(--script);text-transform:none}
+.lbl{font-size:.6875rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;line-height:1.4}
+
+/* top bar */
+.topbar{background:var(--plaster);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:1.5rem;min-height:60px;flex-wrap:wrap}
+.mark{text-decoration:none;margin-right:auto;display:flex;align-items:baseline;gap:.3rem;white-space:nowrap}
+.mark .script{font-size:1.25rem;color:var(--gold);line-height:1}
+.mark .name{font-family:var(--display);font-size:1.15rem;text-transform:uppercase}
+.back{text-decoration:none;color:var(--ink-2);font-size:.6875rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.back:hover{color:var(--ink)}
+
+/* layout */
+main .wrap{padding-block:clamp(2.5rem,6vw,4.5rem)}
+h1{font-size:clamp(2.2rem,6vw,3.6rem)}
+.lede{margin-top:1rem;color:var(--ink-2);max-width:52ch}
+.cols{
+  display:grid;gap:clamp(2rem,5vw,4rem);margin-top:clamp(2rem,5vw,3.25rem);
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:start;
+}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+h2{font-size:1.5rem;margin-bottom:1.25rem}
+
+/* order lines */
+.line{display:grid;grid-template-columns:62px 1fr auto;gap:1.1rem;align-items:center;
+  padding-block:1.25rem;border-top:1px solid var(--line)}
+.line:last-of-type{border-bottom:1px solid var(--line)}
+.line img{height:96px;width:auto;margin-inline:auto;filter:drop-shadow(0 10px 14px rgba(0,0,0,.22))}
+.line .nm{font-family:var(--display);text-transform:uppercase;font-size:1.3rem;line-height:1}
+.line .st{color:var(--ink-2);font-size:.9rem;margin-top:.3rem}
+.line .rm{background:none;border:0;padding:0;margin-top:.45rem;cursor:pointer;
+  color:var(--ink-2);font-size:.6875rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;text-decoration:underline}
+.line .rm:hover{color:var(--ink)}
+.qty{display:flex;align-items:center;border:2px solid var(--line)}
+.qty-btn{font-size:1.15rem;line-height:1;background:none;border:0;color:inherit;
+  cursor:pointer;width:2.2rem;height:2.7rem;font-family:var(--body)}
+.qty-n{width:2.6rem;height:2.7rem;text-align:center;padding:0;background:none;border:0;
+  color:inherit;font-family:var(--display);font-size:1.25rem;-moz-appearance:textfield}
+.qty-n::-webkit-outer-spin-button,.qty-n::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.total{display:flex;justify-content:space-between;gap:1rem;margin-top:1.35rem}
+.total .v{font-family:var(--display);font-size:1.45rem;line-height:1}
+
+.empty{padding:2.5rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.empty p{color:var(--ink-2)}
+
+/* form */
+.field{margin-bottom:1.35rem}
+.field label{display:block;margin-bottom:.45rem}
+.field .opt{color:var(--muted);letter-spacing:.14em}
+.field input,.field textarea{
+  width:100%;font-family:var(--body);font-size:1rem;color:var(--ink);
+  background:#FBF6F1;border:2px solid var(--line);padding:.85rem .9rem;
+}
+.field textarea{min-height:6.5rem;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--ink);outline:none}
+.field.bad input{border-color:#B3261E}
+.err{display:none;margin-top:.4rem;color:#B3261E;font-size:.85rem}
+.field.bad .err{display:block}
+.btn{
+  font-family:var(--body);font-size:.6875rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;line-height:1;background:var(--ink);color:var(--plaster);
+  border:0;padding:1.1rem 1.8rem;cursor:pointer;transition:opacity .18s ease;
+}
+.btn:hover{opacity:.84}
+.note{margin-top:1rem;font-size:.9rem;color:var(--ink-2);max-width:46ch}
+
+/* sent */
+.sent{border:2px solid var(--teal);padding:clamp(1.5rem,4vw,2.25rem);background:#FBF6F1}
+.sent h2{color:var(--teal)}
+.sent pre{
+  margin:1.25rem 0 0;padding:1rem;background:var(--plaster-2);border:1px solid var(--line);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;
+  line-height:1.6;white-space:pre-wrap;word-break:break-word;
+}
+.sent .btn{margin-top:1.25rem}
+
+footer{background:#241F1D;color:#F1E8DF;margin-top:clamp(3rem,7vw,5rem)}
+footer .wrap{padding-block:2.25rem;display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+footer .mark{color:#F1E8DF;margin-right:0}
+footer .lbl{opacity:.6}
+</style>
+<script>
+/* Ordering sits behind the same age check as the rest of the site. */
+(function(){
+  try{ if(localStorage.getItem('twb-age-ok') === '1') return; }catch(e){ return; }
+  location.replace('index.html');
+})();
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="mark" href="index.html"><span class="script">The</span><span class="name">Wandering Brew</span></a>
+    <a class="back" href="index.html">&larr; Back to the beers</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>Your order</h1>
+    <p class="lede">Collection only. Send this through and we will message you back to agree a price and a time to come and get it &mdash; nothing is charged here.</p>
+
+    <div class="cols" id="cols">
+      <section aria-labelledby="h-order">
+        <h2 id="h-order">What you are taking</h2>
+        <div id="lines"></div>
+        <div class="empty" id="empty" hidden>
+          <p>Nothing in the order yet.</p>
+          <p style="margin-top:1rem"><a href="index.html#beers">Back to the beers</a></p>
+        </div>
+        <div class="total" id="total" hidden>
+          <span class="lbl" style="align-self:center">Bottles</span>
+          <span class="v" id="total-n">0</span>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-you" id="form-side">
+        <h2 id="h-you">Where to send it</h2>
+        <form id="order-form" novalidate>
+          <div class="field" id="f-name">
+            <label class="lbl" for="name">Name</label>
+            <input id="name" name="name" autocomplete="name" required>
+            <div class="err">We need a name to put on it.</div>
+          </div>
+          <div class="field" id="f-phone">
+            <label class="lbl" for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+            <div class="err">We need a number to message you back on.</div>
+          </div>
+          <div class="field" id="f-email">
+            <label class="lbl" for="email">Email <span class="opt">optional</span></label>
+            <input id="email" name="email" type="email" autocomplete="email">
+          </div>
+          <div class="field">
+            <label class="lbl" for="notes">Anything else <span class="opt">optional</span></label>
+            <textarea id="notes" name="notes" placeholder="When you are around, who it is for, that sort of thing."></textarea>
+          </div>
+          <button class="btn" type="submit">Send the order</button>
+          <p class="note">This opens your mail app with the order already written out. If it does not open, the same text is shown here to copy.</p>
+        </form>
+      </section>
+    </div>
+
+    <div class="sent" id="sent" hidden>
+      <h2>That is on its way</h2>
+      <p>Your mail app should have opened with the order in it &mdash; press send and we will come back to you. If nothing opened, copy the text below and send it to
+        <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>.</p>
+      <pre id="sent-text"></pre>
+      <button class="btn" type="button" id="copy">Copy the text</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="mark"><span class="script">The</span><span class="name">Wandering Brew</span></div>
+    <span class="lbl">Brewing since 2023 &middot; Drink responsibly</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY = 'twb-cart', MAX = 24, TO = 'info@thewanderingbrew.co.il';
+
+  /* Everything that can go in an order. Ids match data-add on the beers page.
+     Add a beer here and give it a matching Add to cart button to sell it. */
+  var PRODUCTS = {
+    'jerusalem-syndrome': {
+      name: 'Jerusalem Syndrome',
+      style: 'Hazy IPA, 5.3%',
+      img: 'img/bottle-jerusalem-syndrome.png'
+    }
+  };
+
+  /* No money is shown anywhere while this is null, which keeps the page an
+     order request rather than a sale. Set it to a price per bottle in shekels
+     and a line total and an order total appear by themselves. */
+  var PRICE = null;
+
+  var lines = document.getElementById('lines');
+  var empty = document.getElementById('empty');
+  var total = document.getElementById('total');
+  var totalN = document.getElementById('total-n');
+  var formSide = document.getElementById('form-side');
+  var form = document.getElementById('order-form');
+  var sent = document.getElementById('sent');
+  var sentText = document.getElementById('sent-text');
+
+  function read(){
+    var c;
+    try{ c = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ c = {}; }
+    var out = {}, k;
+    for(k in c){
+      if(PRODUCTS[k] && c[k] > 0){ out[k] = Math.min(MAX, c[k] | 0); }
+    }
+    return out;
+  }
+  function write(c){ try{ localStorage.setItem(KEY, JSON.stringify(c)); }catch(e){} render(); }
+  function money(n){ return '₪' + n.toFixed(2).replace(/\.00$/, ''); }
+
+  function render(){
+    var cart = read(), ids = Object.keys(cart), n = 0;
+    lines.textContent = '';
+
+    ids.forEach(function(id){
+      var p = PRODUCTS[id], q = cart[id];
+      n += q;
+
+      var row = document.createElement('div');
+      row.className = 'line';
+
+      var art = document.createElement('div');
+      var img = document.createElement('img');
+      img.src = p.img; img.alt = '';
+      art.appendChild(img);
+
+      var mid = document.createElement('div');
+      var nm = document.createElement('div');
+      nm.className = 'nm'; nm.textContent = p.name;
+      var st = document.createElement('div');
+      st.className = 'st';
+      st.textContent = PRICE == null ? p.style : p.style + ' · ' + money(PRICE) + ' each';
+      var rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
+      rm.addEventListener('click', function(){ var c = read(); delete c[id]; write(c); });
+      mid.appendChild(nm); mid.appendChild(st); mid.appendChild(rm);
+
+      var qty = document.createElement('div');
+      qty.className = 'qty';
+      qty.setAttribute('role', 'group');
+      qty.setAttribute('aria-label', 'Bottles of ' + p.name);
+      [-1, 1].forEach(function(step, i){
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'qty-btn';
+        b.textContent = step < 0 ? '−' : '+';
+        b.setAttribute('aria-label', step < 0 ? 'One fewer' : 'One more');
+        b.addEventListener('click', function(){
+          var c = read();
+          c[id] = Math.min(MAX, Math.max(1, (c[id] || 1) + step));
+          write(c);
+        });
+        if(i === 0){ qty.appendChild(b); } else { qty.appendChild(b); }
+      });
+      var input = document.createElement('input');
+      input.className = 'qty-n'; input.type = 'number';
+      input.min = '1'; input.max = String(MAX); input.step = '1';
+      input.value = String(q);
+      input.setAttribute('inputmode', 'numeric');
+      input.setAttribute('aria-label', 'Bottles of ' + p.name);
+      input.addEventListener('change', function(){
+        var c = read();
+        c[id] = Math.min(MAX, Math.max(1, parseInt(input.value, 10) || 1));
+        write(c);
+      });
+      qty.insertBefore(input, qty.lastChild);
+
+      row.appendChild(art); row.appendChild(mid); row.appendChild(qty);
+      lines.appendChild(row);
+    });
+
+    empty.hidden = ids.length > 0;
+    total.hidden = ids.length === 0;
+    formSide.hidden = ids.length === 0;
+    totalN.textContent = PRICE == null ? String(n) : n + ' · ' + money(n * PRICE);
+  }
+
+  function orderText(d){
+    var cart = read(), out = ['Order from thewanderingbrew.co.il', ''];
+    Object.keys(cart).forEach(function(id){
+      out.push(cart[id] + ' x ' + PRODUCTS[id].name + ' (' + PRODUCTS[id].style + ')');
+    });
+    out.push('', 'Name: ' + d.name, 'Phone: ' + d.phone);
+    if(d.email){ out.push('Email: ' + d.email); }
+    if(d.notes){ out.push('', 'Notes: ' + d.notes); }
+    out.push('', 'Collection');
+    return out.join('\n');
+  }
+
+  function check(id, ok){
+    document.getElementById(id).className = ok ? 'field' : 'field bad';
+    return ok;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var d = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      email: form.email.value.trim(),
+      notes: form.notes.value.trim()
+    };
+    var ok = check('f-name', d.name.length > 0);
+    ok = check('f-phone', d.phone.length >= 6) && ok;
+    if(!ok){ form.querySelector('.bad input').focus(); return; }
+
+    var body = orderText(d);
+    sentText.textContent = body;
+    sent.hidden = false;
+    document.getElementById('cols').hidden = true;
+    location.href = 'mailto:' + TO
+      + '?subject=' + encodeURIComponent('Order — ' + d.name)
+      + '&body=' + encodeURIComponent(body);
+    sent.scrollIntoView({block: 'start'});
+  });
+
+  document.getElementById('copy').addEventListener('click', function(){
+    var b = this;
+    function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy the text'; }, 1800); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(sentText.textContent).then(done, function(){});
+      return;
+    }
+    var r = document.createRange();
+    r.selectNodeContents(sentText);
+    var sel = window.getSelection();
+    sel.removeAllRanges(); sel.addRange(r);
+    try{ document.execCommand('copy'); done(); }catch(e){}
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
