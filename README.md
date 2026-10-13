@@ -81,14 +81,21 @@ order out as plain text, and opens the visitor's mail app addressed to
 button, because `mailto:` does not fire reliably on every phone. **Nothing is
 charged and no card details are handled anywhere.**
 
-Prices are deliberately absent. `checkout.html` has:
+Prices live in two places, both of which have to agree:
 
 ```js
-var PRICE = null;
+// checkout.html
+var PRICE = 18;       // what a bottle costs today
+var FULL_PRICE = 20;  // struck through beside it; null ends the sale
 ```
 
-Set it to a price per bottle in shekels and a per-line price and an order total
-appear by themselves; leave it `null` and the page stays an order request.
+```html
+<!-- index.html, the specs row on Jerusalem Syndrome -->
+<div><span class="k">Price</span><span class="v"><s>&#8362;20</s> &#8362;18</span></div>
+```
+
+Setting `PRICE` to `null` removes every price from the checkout and leaves it a
+plain order request; you would take the specs row out of `index.html` to match.
 
 Ordering sits behind the same age check as the rest of the site — reaching
 `checkout.html` without a stored confirmation sends you back to the front page.
@@ -109,7 +116,6 @@ After that, adding a shop is a pin on the map — nothing in this repo changes.
 
 ### Still to fill in
 
-- A price per bottle, if you want one shown before people order (`PRICE`)
 - The stockist map id (`MAP_ID`)
 - A pickup address, if you would rather state one than arrange it per order
 - Photography — there are no shots of the brewery, people, or beer in a glass

@@ -77,6 +77,8 @@ h2{font-size:1.5rem;margin-bottom:1.25rem}
   color:inherit;font-family:var(--display);font-size:1.25rem;-moz-appearance:textfield}
 .qty-n::-webkit-outer-spin-button,.qty-n::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .total{display:flex;justify-content:space-between;gap:1rem;margin-top:1.35rem}
+.total+.total{margin-top:.7rem;padding-top:.9rem;border-top:1px solid var(--line)}
+.line .st s{opacity:.5;margin-right:.1rem}
 .total .v{font-family:var(--display);font-size:1.45rem;line-height:1}
 
 .empty{padding:2.5rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -152,6 +154,10 @@ footer .lbl{opacity:.6}
           <span class="lbl" style="align-self:center">Bottles</span>
           <span class="v" id="total-n">0</span>
         </div>
+        <div class="total" id="sum" hidden>
+          <span class="lbl" style="align-self:center">Total</span>
+          <span class="v" id="total-sum"></span>
+        </div>
       </section>
 
       <section aria-labelledby="h-you" id="form-side">
@@ -211,15 +217,20 @@ footer .lbl{opacity:.6}
     }
   };
 
-  /* No money is shown anywhere while this is null, which keeps the page an
-     order request rather than a sale. Set it to a price per bottle in shekels
-     and a line total and an order total appear by themselves. */
-  var PRICE = null;
+  /* What a bottle costs today, in shekels. Set PRICE to null and every price
+     on this page disappears, leaving a plain order request. FULL_PRICE is only
+     struck through beside it while there is a sale on - set it to null to end
+     the sale. Both figures are also printed on the beers page, in the specs
+     row next to ABV and style. */
+  var PRICE = 18;
+  var FULL_PRICE = 20;
 
   var lines = document.getElementById('lines');
   var empty = document.getElementById('empty');
   var total = document.getElementById('total');
   var totalN = document.getElementById('total-n');
+  var sum = document.getElementById('sum');
+  var totalSum = document.getElementById('total-sum');
   var formSide = document.getElementById('form-side');
   var form = document.getElementById('order-form');
   var sent = document.getElementById('sent');
@@ -258,7 +269,17 @@ footer .lbl{opacity:.6}
       nm.className = 'nm'; nm.textContent = p.name;
       var st = document.createElement('div');
       st.className = 'st';
-      st.textContent = PRICE == null ? p.style : p.style + ' · ' + money(PRICE) + ' each';
+      st.textContent = p.style;
+      if(PRICE != null){
+        st.appendChild(document.createTextNode(' · '));
+        if(FULL_PRICE != null && FULL_PRICE > PRICE){
+          var was = document.createElement('s');
+          was.textContent = money(FULL_PRICE);
+          st.appendChild(was);
+          st.appendChild(document.createTextNode(' '));
+        }
+        st.appendChild(document.createTextNode(money(PRICE) + ' each'));
+      }
       var rm = document.createElement('button');
       rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remove';
       rm.addEventListener('click', function(){ var c = read(); delete c[id]; write(c); });
@@ -300,14 +321,20 @@ footer .lbl{opacity:.6}
     empty.hidden = ids.length > 0;
     total.hidden = ids.length === 0;
     formSide.hidden = ids.length === 0;
-    totalN.textContent = PRICE == null ? String(n) : n + ' · ' + money(n * PRICE);
+    totalN.textContent = String(n);
+    sum.hidden = ids.length === 0 || PRICE == null;
+    if(PRICE != null){ totalSum.textContent = money(n * PRICE); }
   }
 
   function orderText(d){
-    var cart = read(), out = ['Order \u2014 The Wandering Brew', ''];
+    var cart = read(), out = ['Order \u2014 The Wandering Brew', ''], n = 0;
     Object.keys(cart).forEach(function(id){
-      out.push(cart[id] + ' x ' + PRODUCTS[id].name + ' (' + PRODUCTS[id].style + ')');
+      var q = cart[id];
+      n += q;
+      out.push(q + ' x ' + PRODUCTS[id].name + ' (' + PRODUCTS[id].style + ')'
+               + (PRICE == null ? '' : '  ' + money(q * PRICE)));
     });
+    if(PRICE != null){ out.push('', 'Total: ' + money(n * PRICE)); }
     out.push('', 'Name: ' + d.name, 'Phone: ' + d.phone);
     if(d.email){ out.push('Email: ' + d.email); }
     if(d.notes){ out.push('', 'Notes: ' + d.notes); }
