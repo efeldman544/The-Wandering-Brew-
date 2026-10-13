@@ -233,6 +233,9 @@ img{display:block}
 }
 .tbc{opacity:.55;font-style:italic;text-transform:none;letter-spacing:0;font-family:var(--body);font-size:1rem}
 
+/* anchor targets, offset so the sticky bar does not sit over them */
+#beers,#story,#find{scroll-margin-top:var(--bar,68px)}
+
 /* ---------- buying ---------- */
 .buy{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:1.6rem}
 .btn{
@@ -417,7 +420,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
     </div>
   </section>
 
-  <div class="hero">
+  <div class="hero" id="beers">
     <div class="blob teal" aria-hidden="true"></div>
     <div class="blob orchid" aria-hidden="true"></div>
     <div class="wrap">
@@ -452,7 +455,7 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
   </div>
 
 
-  <article class="beer flip" id="beers" style="--bg:var(--cosmic);--fg:#F0E9F5;--accent:var(--fire);--hair:rgba(240,233,245,.25)">
+  <article class="beer flip" style="--bg:var(--cosmic);--fg:#F0E9F5;--accent:var(--fire);--hair:rgba(240,233,245,.25)">
     <div class="wrap">
       <div class="media">
         <div class="bottle">
@@ -633,6 +636,15 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
   });
 
   paint();
+
+  /* the top bar wraps to two rows on narrow screens, so measure it rather
+     than guessing a single offset for scroll-margin-top */
+  var bar = document.querySelector('.topbar');
+  function barHeight(){
+    document.documentElement.style.setProperty('--bar', (bar.offsetHeight + 8) + 'px');
+  }
+  barHeight();
+  window.addEventListener('resize', barHeight);
 })();
 </script>
 <script>
