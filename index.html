@@ -118,16 +118,16 @@ img{display:block}
   display:flex;align-items:center;
 }
 .opener .wrap{position:relative;z-index:2;padding-block:clamp(2.5rem,6vw,4rem)}
-.opener-copy{max-width:min(46%,520px)}
+.opener-copy{max-width:min(46%,560px)}
 .wordmark{line-height:.95}
 .wordmark .script{
   font-family:var(--script);text-transform:none;
-  font-size:clamp(1.6rem,4.4vw,3.2rem);color:var(--gold);
+  font-size:clamp(1.9rem,5.4vw,4rem);color:var(--gold);
   margin-right:.18em;
 }
 .wordmark .name{
   font-family:var(--display);text-transform:uppercase;
-  font-size:clamp(1.9rem,5.6vw,4.4rem);letter-spacing:.005em;
+  font-size:clamp(2.3rem,7vw,5.6rem);letter-spacing:.005em;
 }
 .opener-line{
   margin-top:clamp(1rem,2.4vw,1.5rem);
@@ -139,7 +139,7 @@ img{display:block}
   width:auto;left:44%;
   display:flex;align-items:flex-end;justify-content:flex-end;
   gap:clamp(2px,0.9vw,14px);
-  padding-right:var(--gutter);
+  padding-right:calc(var(--gutter) + clamp(0px,(100vw - 1100px) * 0.18,96px));
   pointer-events:none;
 }
 .opener-bottles img{
