@@ -39,6 +39,13 @@ Vercel serves this as-is. Import the repo at vercel.com and take the defaults:
 
 Every push to `main` redeploys.
 
+If a push does not produce a deployment, check the project's Deployments tab
+before assuming the push failed: `git ls-remote origin refs/heads/main` shows
+what GitHub actually has, and the GitHub Deployments API lists what Vercel
+picked up. A push can land on `main` with no deployment created at all, which
+means the webhook was missed rather than the build failing. Redeploy from the
+dashboard, or push again.
+
 ## Domain
 
 `thewanderingbrew.co.il` is attached in Vercel under **Settings → Domains**. Vercel
