@@ -11,6 +11,7 @@ A static site. No build step, no dependencies, no framework.
 ```
 index.html              the whole page (markup + CSS inline)
 checkout.html           the order page, standalone
+api/order.js            serverless function, emails an order to the brewery
 img/bottle-*.png        product shots, one per beer
 og.jpg                  social share image (1200x630)
 favicon.svg             browser tab icon
@@ -82,11 +83,47 @@ stay in `PRODUCTS`, it just stops being reachable.
 The cart lives in `localStorage` under `twb-cart`, as `{id: bottles}`. It is
 per-browser and never leaves the visitor's machine until they send the order.
 
-`checkout.html` collects a name, phone and optional email and notes, writes the
-order out as plain text, and opens the visitor's mail app addressed to
-`info@thewanderingbrew.co.il`. The same text is shown on the page with a copy
-button, because `mailto:` does not fire reliably on every phone. **Nothing is
-charged and no card details are handled anywhere.**
+`checkout.html` collects a name, phone and optional email and notes, then POSTs
+the order to `/api/order`, which emails it to `info@thewanderingbrew.co.il`.
+**Nothing is charged and no card details are handled anywhere.**
+
+If that call fails for any reason — no API key set, the mail provider down, the
+visitor offline — the page falls back to opening their own mail app with the
+order already written out, and shows the same text with a copy button. An order
+is never lost because the endpoint is having a bad day.
+
+### Sending mail
+
+`api/order.js` is a Vercel serverless function; any file under `/api` is picked
+up automatically, so there is still no build step. It sends through
+[Resend](https://resend.com). Set one environment variable in the Vercel
+project (Settings → Environment Variables), then redeploy:
+
+| Variable | |
+|---|---|
+| `RESEND_API_KEY` | **required** — an API key from resend.com |
+| `ORDER_TO` | optional — defaults to `info@thewanderingbrew.co.il` |
+| `ORDER_FROM` | optional — defaults to `onboarding@resend.dev` |
+
+Until `RESEND_API_KEY` exists the endpoint answers `503 not-configured` and the
+page quietly uses the mail-app fallback, so deploying this before setting the
+key changes nothing for visitors.
+
+Resend will only send from a domain you have verified. Two ways to start:
+
+- **Now, no DNS.** Sign up at resend.com using `info@thewanderingbrew.co.il` as
+  the account address. Unverified accounts can send from `onboarding@resend.dev`
+  to the account's own address, which is exactly where orders go.
+- **Properly.** Add `thewanderingbrew.co.il` as a domain in Resend, put the DNS
+  records it gives you on the domain, then set
+  `ORDER_FROM="The Wandering Brew <orders@thewanderingbrew.co.il>"`. Orders then
+  arrive from your own domain rather than Resend's.
+
+The function keeps its own copy of the catalogue and the price, and works out
+every figure in the email from that. Prices are never read from the browser, so
+a tampered page cannot change what an order claims to cost. Quantities are
+capped at 24 a line. A hidden `company` field catches form bots: anything that
+fills it gets a cheerful `200` and no email.
 
 Prices live in two places, both of which have to agree:
 
@@ -123,6 +160,7 @@ After that, adding a shop is a pin on the map — nothing in this repo changes.
 
 ### Still to fill in
 
+- A Resend API key, so orders send from the site rather than the mail app
 - The stockist map id (`MAP_ID`)
 - A pickup address, if you would rather state one than arrange it per order
 - Photography — there are no shots of the brewery, people, or beer in a glass

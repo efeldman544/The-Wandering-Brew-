@@ -96,6 +96,7 @@ h2{font-size:1.5rem;margin-bottom:1.25rem}
 .field input:focus,.field textarea:focus{border-color:var(--ink);outline:none}
 .field.bad input{border-color:#B3261E}
 .err{display:none;margin-top:.4rem;color:#B3261E;font-size:.85rem}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .field.bad .err{display:block}
 .btn{
   font-family:var(--body);font-size:.6875rem;font-weight:600;letter-spacing:.18em;
@@ -181,17 +182,19 @@ footer .lbl{opacity:.6}
             <label class="lbl" for="notes">Anything else <span class="opt">optional</span></label>
             <textarea id="notes" name="notes" placeholder="A preferred pickup day, a gift message, anything we should know."></textarea>
           </div>
-          <button class="btn" type="submit">Send the order</button>
+          <div class="hp" aria-hidden="true">
+            <label>Company <input id="company" name="company" tabindex="-1" autocomplete="off"></label>
+          </div>
+          <button class="btn" type="submit" id="send">Send the order</button>
         </form>
       </section>
     </div>
 
     <div class="sent" id="sent" hidden>
-      <h2>Almost done</h2>
-      <p>Your order is ready in your mail app &mdash; send it and we will confirm by return. If nothing opened, copy the order below and email it to
-        <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>.</p>
+      <h2 id="sent-h">Order sent</h2>
+      <p id="sent-p">Thanks &mdash; we have it. We will message you to confirm, with pickup details. Here is what you sent us:</p>
       <pre id="sent-text"></pre>
-      <button class="btn" type="button" id="copy">Copy it</button>
+      <button class="btn" type="button" id="copy" hidden>Copy it</button>
     </div>
   </div>
 </main>
@@ -235,6 +238,11 @@ footer .lbl{opacity:.6}
   var form = document.getElementById('order-form');
   var sent = document.getElementById('sent');
   var sentText = document.getElementById('sent-text');
+  var sentH = document.getElementById('sent-h');
+  var sentP = document.getElementById('sent-p');
+  var sendBtn = document.getElementById('send');
+  var copyBtn = document.getElementById('copy');
+  var sending = false;
 
   function read(){
     var c;
@@ -347,8 +355,36 @@ footer .lbl{opacity:.6}
     return ok;
   }
 
+  function reveal(){
+    sent.hidden = false;
+    document.getElementById('cols').hidden = true;
+    sent.scrollIntoView({block: 'start'});
+  }
+
+  /* /api/order sent it for us */
+  function delivered(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    reveal();
+  }
+
+  /* the endpoint is unreachable, unconfigured or refused it - hand the order to
+     the visitor's own mail app rather than losing it */
+  function handOff(d, body){
+    sentH.textContent = 'Almost done';
+    sentP.innerHTML = 'We could not send this from the site, so your mail app should have opened '
+      + 'with the order ready to go &mdash; press send. If nothing opened, copy it below and email it to '
+      + '<a href="mailto:' + TO + '">' + TO + '</a>.';
+    copyBtn.hidden = false;
+    reveal();
+    location.href = 'mailto:' + TO
+      + '?subject=' + encodeURIComponent('Order — ' + d.name)
+      + '&body=' + encodeURIComponent(body);
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
+    if(sending) return;
+
     var d = {
       name: form.name.value.trim(),
       phone: form.phone.value.trim(),
@@ -361,15 +397,36 @@ footer .lbl{opacity:.6}
 
     var body = orderText(d);
     sentText.textContent = body;
-    sent.hidden = false;
-    document.getElementById('cols').hidden = true;
-    location.href = 'mailto:' + TO
-      + '?subject=' + encodeURIComponent('Order — ' + d.name)
-      + '&body=' + encodeURIComponent(body);
-    sent.scrollIntoView({block: 'start'});
+
+    sending = true;
+    sendBtn.disabled = true;
+    sendBtn.textContent = 'Sending';
+
+    var payload = {
+      items: read(),
+      name: d.name, phone: d.phone, email: d.email, notes: d.notes,
+      company: form.company.value
+    };
+
+    function failed(){
+      sending = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = 'Send the order';
+      handOff(d, body);
+    }
+
+    fetch('/api/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(r){
+      return r.json().then(function(j){ return r.ok && j && j.ok; }, function(){ return false; });
+    }).then(function(good){
+      if(good){ delivered(); } else { failed(); }
+    }, failed);
   });
 
-  document.getElementById('copy').addEventListener('click', function(){
+  copyBtn.addEventListener('click', function(){
     var b = this;
     function done(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = 'Copy it'; }, 1800); }
     if(navigator.clipboard && navigator.clipboard.writeText){
