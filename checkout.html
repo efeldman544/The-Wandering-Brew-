@@ -420,10 +420,24 @@ footer .lbl{opacity:.6}
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     }).then(function(r){
-      return r.json().then(function(j){ return r.ok && j && j.ok; }, function(){ return false; });
+      return r.json().then(function(j){
+        /* so a failure can be diagnosed from the console rather than guessed at:
+           503 not-configured means RESEND_API_KEY is unset, 404 means the
+           function is not deployed, 502 means the mail provider refused it */
+        if(!(r.ok && j && j.ok)){
+          console.warn('[order] /api/order answered ' + r.status + ' ' + ((j && j.reason) || ''));
+        }
+        return r.ok && j && j.ok;
+      }, function(){
+        console.warn('[order] /api/order answered ' + r.status + ' with no JSON body');
+        return false;
+      });
     }).then(function(good){
       if(good){ delivered(); } else { failed(); }
-    }, failed);
+    }, function(err){
+      console.warn('[order] could not reach /api/order: ' + (err && err.message));
+      failed();
+    });
   });
 
   copyBtn.addEventListener('click', function(){
