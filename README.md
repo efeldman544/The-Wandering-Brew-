@@ -109,6 +109,10 @@ Until `RESEND_API_KEY` exists the endpoint answers `503 not-configured` and the
 page quietly uses the mail-app fallback, so deploying this before setting the
 key changes nothing for visitors.
 
+An environment variable only reaches a **new** build. Saving one in Vercel does
+nothing to the site already running, so a variable has to be followed by either
+a redeploy from the dashboard or any push to `main`.
+
 Resend will only send from a domain you have verified. Two ways to start:
 
 - **Now, no DNS.** Sign up at resend.com using `info@thewanderingbrew.co.il` as
