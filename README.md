@@ -164,7 +164,6 @@ After that, adding a shop is a pin on the map — nothing in this repo changes.
 
 ### Still to fill in
 
-- A Resend API key, so orders send from the site rather than the mail app
 - The stockist map id (`MAP_ID`)
 - A pickup address, if you would rather state one than arrange it per order
 - Photography — there are no shots of the brewery, people, or beer in a glass
