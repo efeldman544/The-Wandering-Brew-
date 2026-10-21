@@ -107,24 +107,24 @@ h2{font-size:1.5rem;margin-bottom:1.25rem}
 .note{margin-top:1rem;font-size:.9rem;color:var(--ink-2);max-width:46ch}
 
 /* sent */
-.sent{border:2px solid var(--teal);padding:clamp(1.5rem,4vw,2.25rem);background:#FBF6F1;max-width:46rem}
+.sent{border:2px solid var(--teal);padding:clamp(1.5rem,4vw,2.25rem);background:#FBF6F1;max-width:44rem;margin-top:clamp(1.75rem,4vw,2.5rem)}
 .sent h2{color:var(--teal);font-size:clamp(1.7rem,4vw,2.3rem)}
-.sent>p{margin-top:.9rem;color:var(--ink-2);max-width:46ch}
+.sent>p{margin-top:.75rem;color:var(--ink-2);max-width:54ch;text-wrap:pretty}
 
 /* the order read back as a receipt rather than as the email we sent */
-.receipt{margin-top:clamp(1.5rem,4vw,2rem)}
+.receipt{margin-top:1.4rem}
 .r-line{
   display:flex;justify-content:space-between;align-items:baseline;gap:1.5rem;
-  padding-block:1rem;border-top:1px solid var(--line);
+  padding-block:.8rem;border-top:1px solid var(--line);
 }
 .r-name{font-family:var(--display);text-transform:uppercase;font-size:1.3rem;line-height:1}
-.r-sub{color:var(--ink-2);font-size:.9rem;margin-top:.35rem}
+.r-sub{color:var(--ink-2);font-size:.9rem;margin-top:.25rem}
 .r-amt{font-family:var(--display);font-size:1.3rem;line-height:1;white-space:nowrap}
 .r-total{border-top:2px solid var(--ink)}
 .r-total .r-amt{font-size:1.7rem}
 .r-who{
-  margin:1.5rem 0 0;padding-top:1.35rem;border-top:1px solid var(--line);
-  display:grid;gap:.85rem;
+  margin:1.1rem 0 0;padding-top:1rem;border-top:1px solid var(--line);
+  display:grid;gap:.55rem;
 }
 .r-who>div{display:flex;gap:1rem;align-items:baseline}
 .r-who dt{flex:0 0 5rem;color:var(--muted)}
@@ -134,7 +134,7 @@ h2{font-size:1.5rem;margin-bottom:1.25rem}
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.85rem;
   line-height:1.6;white-space:pre-wrap;word-break:break-word;
 }
-.sent .btn{margin-top:1.75rem;display:inline-block}
+.sent .btn{margin-top:1.5rem;display:inline-block}
 
 footer{background:#241F1D;color:#F1E8DF;margin-top:clamp(3rem,7vw,5rem)}
 footer .wrap{padding-block:2.25rem;display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
