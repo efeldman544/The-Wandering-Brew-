@@ -62,7 +62,7 @@ properties at the top, sampled from the bottle labels:
 |---|---|---|
 | `--orchid` | `#C15CD6` | "JERUSALEM" |
 | `--cyan` | `#35AAD3` | "SYNDROME" |
-| `--gold` | `#D9AB41` | the brewery tag |
+| `--gold` | `#D9AB41` | the brewery tag, and the corner blob |
 | `--teal` | `#1C7F92` | corner mark |
 | `--orange` / `--peach` | `#E2611E` / `#FAD9B4` | King of the Hill |
 | `--navy` / `--coral` | `#16385A` / `#EF625D` | Pour Decisions |
