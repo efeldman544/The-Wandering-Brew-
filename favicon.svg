@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="The Wandering Brew">
-  <rect width="64" height="64" rx="13" fill="#1C7F92"/>
-  <path d="M20.340909090909093 52.0 16.045454545454547 12.0H23.863636363636367L26.06818181818182 37.25L28.31818181818182 12.0H35.77272727272727L37.90909090909091 37.25L40.04545454545455 12.0H47.95454545454545L43.59090909090909 52.0H34.0L32.0 32.75L30.090909090909093 52.0Z" fill="#FFFFFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#241F1D"/>
+  <circle cx="20" cy="22" r="9" fill="#1C7F92"/>
+  <circle cx="42" cy="22" r="9" fill="#C15CD6"/>
+  <circle cx="31" cy="42" r="9" fill="#35AAD3"/>
+  <rect x="14" y="52" width="36" height="5" rx="2.5" fill="#D9AB41"/>
 </svg>
