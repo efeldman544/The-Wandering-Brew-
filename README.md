@@ -14,7 +14,8 @@ checkout.html           the order page, standalone
 api/order.js            serverless function, emails an order to the brewery
 img/bottle-*.png        product shots, one per beer
 og.jpg                  social share image (1200x630)
-favicon.svg             browser tab icon
+favicon-32.png          browser tab icon
+favicon-16.png          browser tab icon, small
 apple-touch-icon.png    iOS home screen icon
 ```
 
