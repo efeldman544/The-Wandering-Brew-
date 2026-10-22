@@ -293,6 +293,18 @@ img{display:block}
 .find .slot{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.3)}
 .find .slot .lbl{opacity:.65;margin-bottom:.5rem}
 .find .slot a{font-size:1.15rem;text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:.1rem}
+
+/* social link: the glyph sits outside the underline so the rule tracks the text */
+.social{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none}
+.social .ig{width:1.5em;height:1.5em;flex:0 0 auto;transition:opacity .18s ease}
+.social:hover .ig{opacity:.75}
+.find .slot a.social{border-bottom:0;padding-bottom:0}
+.find .slot a.social span{border-bottom:2px solid var(--gold);padding-bottom:.1rem}
+.foot-nav a.social{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;margin:-10px 0;  /* a real tap target without moving the row */
+}
+.foot-nav a.social .ig{width:24px;height:24px}
 .find ul{list-style:none;margin:1.25rem 0 0;padding:0;display:grid;gap:0}
 .find li{padding-block:.8rem;border-bottom:1px solid rgba(255,255,255,.22);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .find li span{opacity:.72;font-size:.9rem}
@@ -553,8 +565,10 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
             <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>
           </div>
           <div class="slot">
-            <div class="lbl">Or message us</div>
-            <a href="https://instagram.com/the_wanderingbrew" rel="me noopener" target="_blank">&#64;the_wanderingbrew</a>
+            <div class="lbl">Follow us</div>
+            <a class="social" href="https://instagram.com/the_wanderingbrew" rel="me noopener" target="_blank">
+              <svg class="ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.2" y="2.2" width="19.6" height="19.6" rx="5.4"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none"/></svg><span>&#64;the_wanderingbrew</span>
+            </a>
           </div>
         </div>
         <div class="map" data-map hidden>
@@ -579,7 +593,8 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
         <a href="#beers">The beers</a>
         <a href="#story">Our story</a>
         <a href="#find">Find us</a>
-        <a href="https://instagram.com/the_wanderingbrew" rel="me noopener" target="_blank">Instagram</a>
+        <a class="social" href="https://instagram.com/the_wanderingbrew" rel="me noopener" target="_blank"
+           aria-label="The Wandering Brew on Instagram"><svg class="ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.2" y="2.2" width="19.6" height="19.6" rx="5.4"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none"/></svg></a>
       </nav>
     </div>
     <div class="foot-legal lbl">
