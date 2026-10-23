@@ -23,7 +23,7 @@ var FROM = process.env.ORDER_FROM || 'The Wandering Brew <onboarding@resend.dev>
    worked out from this table, so a tampered page cannot change what an order
    says it costs. Keep the two in step. */
 var PRODUCTS = {
-  'jerusalem-syndrome': { name: 'Jerusalem Syndrome', style: 'Hazy IPA, 5.3%' }
+  'jerusalem-syndrome': { name: 'Jerusalem Syndrome', style: 'Hazy IPA, 5.6%' }
 };
 var PRICE = 18;
 var MAX_PER_LINE = 24;
