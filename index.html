@@ -99,7 +99,7 @@ img{display:block}
 
 /* ---------- top bar ---------- */
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--plaster);border-bottom:1px solid var(--line)}
-.topbar .wrap{display:flex;align-items:center;gap:1.5rem;min-height:60px;flex-wrap:wrap}
+.topbar .wrap{display:flex;align-items:center;gap:1.1rem 1.5rem;min-height:60px;flex-wrap:wrap;padding-block:.85rem}
 .mark{text-decoration:none;margin-right:auto;display:flex;align-items:baseline;gap:.3rem;white-space:nowrap}
 .mark .script{font-size:1.25rem;color:var(--gold);line-height:1}
 .mark .name{font-family:var(--display);font-size:1.15rem;text-transform:uppercase;letter-spacing:.01em}
@@ -115,7 +115,7 @@ img{display:block}
 .opener{
   position:relative;overflow:hidden;
   background:var(--teal);color:#fff;
-  min-height:clamp(430px,64vh,640px);
+  min-height:clamp(450px,66vh,660px);
   display:flex;align-items:center;
 }
 .opener .wrap{position:relative;z-index:2;padding-block:clamp(2.5rem,6vw,4rem)}
@@ -140,17 +140,17 @@ img{display:block}
   width:auto;left:44%;
   display:flex;align-items:flex-end;justify-content:flex-end;
   gap:clamp(2px,0.9vw,14px);
-  padding-right:calc(var(--gutter) + clamp(0px,(100vw - 1100px) * 0.18,96px));
+  padding-right:calc(var(--gutter) + clamp(0px,(100vw - 1100px) * 0.12,64px));
   pointer-events:none;
 }
 .opener-bottles img{
-  height:clamp(240px,min(50vh,35vw),521px);width:auto;flex:0 0 auto;
+  height:clamp(264px,min(55vh,38.5vw),573px);width:auto;flex:0 0 auto;
   filter:drop-shadow(0 18px 28px rgba(0,0,0,.32));
 }
-.opener-bottles img:nth-child(1){height:clamp(247px,min(51vh,36vw),538px)}
-.opener-bottles img:nth-child(2){height:clamp(232px,min(48vh,34vw),504px)}
-.opener-bottles img:nth-child(3){height:clamp(251px,min(52vh,37vw),546px)}
-.opener-bottles img:nth-child(4){height:clamp(227px,min(47vh,33.5vw),490px)}
+.opener-bottles img:nth-child(1){height:clamp(272px,min(56vh,39.5vw),592px)}
+.opener-bottles img:nth-child(2){height:clamp(255px,min(53vh,37.5vw),554px)}
+.opener-bottles img:nth-child(3){height:clamp(276px,min(57vh,40.5vw),601px)}
+.opener-bottles img:nth-child(4){height:clamp(250px,min(52vh,37vw),539px)}
 @media (max-width:860px){
   .opener{display:block;min-height:0}
   .opener-copy{max-width:none}
