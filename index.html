@@ -154,7 +154,16 @@ img{display:block}
 @media (max-width:860px){
   .opener{display:block;min-height:0}
   .opener-copy{max-width:none}
-  .opener-bottles{display:none}
+  .opener-bottles{
+    position:static;left:auto;bottom:auto;
+    margin-top:clamp(1.75rem,6vw,2.5rem);
+    justify-content:center;padding-right:0;gap:4px;
+  }
+  .opener-bottles img,
+  .opener-bottles img:nth-child(1),
+  .opener-bottles img:nth-child(2),
+  .opener-bottles img:nth-child(3),
+  .opener-bottles img:nth-child(4){height:auto;width:23%;margin-bottom:0}
   .opener .wrap{padding-bottom:0}
 }
 
