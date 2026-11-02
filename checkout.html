@@ -334,21 +334,24 @@ footer .lbl{opacity:.6}
         b.textContent = step < 0 ? '−' : '+';
         b.setAttribute('aria-label', step < 0 ? 'One fewer' : 'One more');
         b.addEventListener('click', function(){
-          var c = read();
-          c[id] = Math.min(MAX, Math.max(1, (c[id] || 1) + step));
+          var c = read(), next = (c[id] || 1) + step;
+          /* stepping below one takes the line out - a minus button that stops
+             at one reads as broken, since there is nothing left to press */
+          if(next < 1){ delete c[id]; } else { c[id] = Math.min(MAX, next); }
           write(c);
         });
-        if(i === 0){ qty.appendChild(b); } else { qty.appendChild(b); }
+        qty.appendChild(b);
       });
       var input = document.createElement('input');
       input.className = 'qty-n'; input.type = 'number';
-      input.min = '1'; input.max = String(MAX); input.step = '1';
+      input.min = '0'; input.max = String(MAX); input.step = '1';
       input.value = String(q);
       input.setAttribute('inputmode', 'numeric');
       input.setAttribute('aria-label', 'Bottles of ' + p.name);
       input.addEventListener('change', function(){
-        var c = read();
-        c[id] = Math.min(MAX, Math.max(1, parseInt(input.value, 10) || 1));
+        var c = read(), v = parseInt(input.value, 10);
+        /* typing a zero removes it too, for the same reason */
+        if(!(v > 0)){ delete c[id]; } else { c[id] = Math.min(MAX, v); }
         write(c);
       });
       qty.insertBefore(input, qty.lastChild);
