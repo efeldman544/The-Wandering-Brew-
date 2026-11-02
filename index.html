@@ -119,7 +119,7 @@ img{display:block}
   display:flex;align-items:center;
 }
 .opener .wrap{position:relative;z-index:2;padding-block:clamp(2.5rem,6vw,4rem)}
-.opener-copy{max-width:min(40%,500px)}
+.opener-copy{max-width:min(40%,500px);--wm:clamp(2.3rem,7vw,5.6rem)}
 .wordmark{line-height:.95}
 .wordmark .script{
   font-family:var(--script);text-transform:none;
@@ -128,7 +128,7 @@ img{display:block}
 }
 .wordmark .name{
   font-family:var(--display);text-transform:uppercase;
-  font-size:clamp(2.3rem,7vw,5.6rem);letter-spacing:.005em;
+  font-size:var(--wm);letter-spacing:.005em;
 }
 .opener-line{
   margin-top:clamp(1rem,2.4vw,1.5rem);
@@ -151,6 +151,18 @@ img{display:block}
 .opener-bottles img:nth-child(2){height:clamp(298px,min(66vh,44vw),693px)}
 .opener-bottles img:nth-child(3){height:clamp(323px,min(71vh,47.5vw),751px)}
 .opener-bottles img:nth-child(4){height:clamp(293px,min(65vh,43vw),674px)}
+/* the tagline tucks onto BREW's line, filling the gap to its right. Only
+   above 1200px: below that the column cannot hold BREW plus the tagline,
+   and it drops back underneath. */
+@media (min-width:1200px){
+  .opener-copy{max-width:min(44%,560px)}
+  .opener-line{
+    margin-top:calc(-0.72 * var(--wm));
+    margin-left:calc(2.18 * var(--wm));
+    max-width:16ch;text-wrap:balance;
+  }
+}
+
 @media (max-width:860px){
   .opener{display:block;min-height:0}
   .opener-copy{max-width:none}
