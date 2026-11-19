@@ -31,13 +31,17 @@
   }
 
   function paintNotes(){
-    var pickupNote = P.address
-      ? 'Pick up at ' + sentence(P.address) + (P.hours ? ' ' + sentence(P.hours) : '')
-      : 'We will call you with the pickup address and a time that suits you.';
+    var pickupNote;
+    if(P.address){
+      pickupNote = 'Pick up at ' + sentence(P.address) + ' '
+                 + (P.hours ? sentence(P.hours) : 'We will call to confirm a time that suits you.');
+    } else {
+      pickupNote = 'We will call you with the pickup address and a time that suits you.';
+    }
     pPanel.querySelector('[data-pickup-note]').textContent = pickupNote;
 
     var where = 'We deliver in ' + D.area + (D.areas ? ' — ' + D.areas : '') + '.';
-    var when  = D.when ? ' Deliveries go out ' + sentence(D.when) : '';
+    var when  = D.when ? ' ' + sentence(D.when) : '';
     var min   = D.minimum > 0 ? ' Delivery orders start at ' + D.minimum + ' bottles.' : '';
     dPanel.querySelector('[data-delivery-note]').textContent = where + when + min + ' ' + feeLine();
 
@@ -196,6 +200,21 @@
       fallback();
     });
   });
+
+  /* The hero button is the whole point of the first screen: take people to the
+     form and put the cursor in it, rather than dropping them at an anchor and
+     leaving them to find the first field. */
+  var go = document.querySelector('[data-go]');
+  if(go){
+    go.addEventListener('click', function(ev){
+      var zone = document.getElementById('order-zone');
+      if(!zone) return;
+      ev.preventDefault();
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      zone.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      setTimeout(function(){ try{ form.name.focus({ preventScroll:true }); }catch(e){} }, reduce ? 0 : 520);
+    });
+  }
 
   paintNotes();
   paint();

@@ -9,7 +9,7 @@ Live at **[thewanderingbrew.co.il](https://thewanderingbrew.co.il)**
 A static site. No build step, no dependencies, no framework.
 
 ```
-index.html              the landing page: buy Jerusalem Syndrome
+index.html              the landing page: the pitch, then the order form
 about.html              the beers, the story, find us, the stockist map
 checkout.html           multi-item cart checkout (see Ordering)
 site.css                every style on the site, shared by both pages
@@ -86,23 +86,27 @@ fee: 20          // shekels, charged on orders below freeFrom
 freeFrom: 6      // bottles at or above which delivery costs nothing
 minimum: 0       // smallest delivery order, in bottles. 0 means no minimum
 area: 'central Jerusalem'
-areas: ''        // the neighbourhoods, e.g. 'Rehavia, Nachlaot, the city centre'
-when: ''         // the days and times, e.g. 'Thursdays and Fridays, 4-8pm'
+areas: 'Nachlaot, Shaarei Chesed, Rechavia, Talbiya, Mahane Yehuda, '
+     + 'the city centre and nearby'
+when: 'We will settle a delivery time with you on the phone'
 ```
 
 and below it, for pickup:
 
 ```js
-address: ''      // e.g. '12 Example Street, Jerusalem'
-hours: ''        // e.g. 'Sunday to Thursday, 5-8pm'
+address: 'Nissim Bachar, Nachlaot, Jerusalem'
+hours: ''        // fixed hours, if there ever are any
 ```
 
-The three empty strings start empty **on purpose**. Each page prints whatever is
-filled in and says nothing at all about what is not, so an empty field costs you
-a helpful line but never puts a claim on the site that is not true yet. Fill one
-in and it appears; leave it and the page quietly works around it. With
-`pickup.address` empty the form says it will call with the address; fill it in
-and the address is shown instead.
+`when` is printed as a whole sentence, so swapping it for fixed days and times
+(`'Deliveries go out Thursdays and Fridays, 4-8pm'`) needs no code change. The
+`areas` list ends open — "and nearby" — so a street just off the list does not
+read as a refusal.
+
+An empty string is never printed as an empty claim: each page says only what is
+filled in and quietly works around what is not. With `pickup.hours` empty the
+form says it will call to confirm a time; fill it in and the hours show instead.
+Same for `areas` and `when`.
 
 `fee` and `freeFrom` are also in `api/order.js`, near the top. **Change them in
 both places.** The server keeps its own copy because it recomputes every figure
@@ -204,10 +208,12 @@ After that, adding a shop is a pin on the map — nothing in this repo changes.
 
 ### Still to fill in
 
-- **`delivery.js`** — confirm `fee` and `freeFrom`, and fill in `areas`, `when`,
-  and the pickup `address` and `hours`. Until then the site offers delivery in
-  central Jerusalem at ₪20, free from 6 bottles, and says it will call with the
-  pickup address.
+- `pickup.hours` in `delivery.js`, if pickup ever gets fixed hours. Until then
+  the form says you will call to confirm a time, which is what happens.
+- The hero photography. The first screen uses the cut-out bottle on a gradient;
+  the flyers' shot of the bottle and a poured glass against the Old City would
+  sit behind it far better. Drop a file in `img/` and it can become the
+  background.
 - Our story still reads "one recipe, a great deal of confidence and no plan
   whatsoever" — it needs rewriting, and nobody has said what actually happened
 - Photography — there are no shots of the brewery, people, or beer in a glass

@@ -374,47 +374,115 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 
 /* ==========================================================================
    BUY PAGE  (index.html)
-   The landing page is the order page: one product, one form, no cart hop.
+   The first screen is the whole pitch: name, price, button. Nobody should have
+   to scroll to find out how to buy it. The form itself sits just below.
    ========================================================================== */
 
-/* overflow:clip, not hidden - hidden would make .shop a scroll container and
-   the sticky bottle below would never stick. clip crops the blobs just the
-   same without that side effect. */
-.shop{position:relative;overflow:clip;background:var(--plaster-2)}
-.shop .wrap{
+.hb{
+  position:relative;overflow:clip;
+  background:linear-gradient(174deg,#E4F1F6 0%,#F2EAE1 56%,var(--plaster-2) 100%);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:calc(100svh - var(--bar,68px));
+}
+.hb .wrap{
+  flex:1;display:grid;align-items:center;
+  grid-template-columns:minmax(0,.82fr) minmax(0,1fr);
+  gap:clamp(1rem,4vw,3.5rem);
+  padding-block:clamp(1rem,3vw,2.25rem);
+}
+.hb-art img{
+  height:min(64vh,610px);width:auto;margin-inline:auto;
+  filter:drop-shadow(0 30px 38px rgba(36,22,64,.3));
+}
+.hb h1{font-size:clamp(2.7rem,8.4vw,6.4rem);line-height:.86;margin-top:.7rem}
+.hb h1 .j{color:var(--orchid);display:block}
+.hb h1 .s{color:var(--cyan);display:block}
+.hb .brush{margin-top:.5rem}
+
+/* the flyers' little filled labels */
+.chip{
+  display:inline-block;padding:.42rem .85rem;line-height:1;
+  font-family:var(--body);font-size:.6875rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+}
+.chip-gold{background:var(--gold);color:#2B2008}
+.chip-cyan{background:var(--cyan);color:#06303E}
+.chip-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:clamp(.75rem,2vw,1rem)}
+
+.hb-line{
+  font-family:var(--script);color:var(--navy);
+  font-size:clamp(1.35rem,3.1vw,2.2rem);line-height:1.15;
+  margin-top:clamp(.75rem,2vw,1.1rem);
+}
+
+.hb-go{
+  display:flex;align-items:center;gap:clamp(1rem,2.4vw,1.75rem);flex-wrap:wrap;
+  margin-top:clamp(1.1rem,2.8vw,1.75rem);
+}
+.price{display:flex;align-items:baseline;gap:.45rem}
+.price s{font-family:var(--display);font-size:1.4rem;opacity:.42;text-decoration-thickness:2px}
+.price b{font-family:var(--display);font-weight:400;line-height:1;
+  font-size:clamp(2.1rem,4.4vw,2.9rem)}
+.price i{font-style:normal;font-size:.9rem;color:var(--ink-2)}
+
+/* the one button the page is built around */
+.btn-go{
+  background:var(--gold);color:#2B2008;
+  font-size:.875rem;letter-spacing:.2em;padding:1.3rem 2.3rem;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.65rem;
+  box-shadow:0 9px 0 -4px rgba(140,101,12,.28);
+}
+.btn-go:hover{background:#E8BB4F;opacity:1}
+.hb-note{margin-top:clamp(.8rem,2vw,1.1rem);font-size:.9rem;color:var(--ink-2);max-width:54ch}
+
+.facts{
   position:relative;z-index:1;
-  display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);
-  gap:clamp(1.5rem,5vw,4rem);align-items:start;
-  padding-block:clamp(2rem,5vw,3.5rem) clamp(2.75rem,6vw,4.5rem);
+  display:flex;justify-content:center;gap:clamp(1.25rem,4vw,3rem);flex-wrap:wrap;
+  padding:clamp(.85rem,1.8vw,1.15rem) var(--gutter);
+  background:rgba(36,31,29,.05);border-top:1px solid rgba(36,31,29,.09);
 }
-.shop-art img{
-  height:min(56vh,470px);width:auto;margin-inline:auto;
-  filter:drop-shadow(0 26px 32px rgba(36,22,64,.3));
+.facts span{
+  font-family:var(--body);font-size:.6875rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
 }
-/* the bottle holds station while the form scrolls past it */
-@media (min-width:861px){.shop-art{position:sticky;top:calc(var(--bar,68px) + 1rem)}}
+.facts span + span{position:relative}
+.facts span + span::before{
+  content:"";position:absolute;top:50%;width:1px;height:1em;
+  left:calc(-1 * clamp(.62rem,2vw,1.5rem));
+  background:rgba(36,31,29,.28);transform:translateY(-50%);
+}
+
 @media (max-width:860px){
-  /* the bottle earns its place but not the whole first screen: shrink it so the
-     order form starts above the fold on a phone */
-  .shop .wrap{grid-template-columns:1fr;padding-block:1.25rem clamp(2.25rem,6vw,3rem)}
-  .shop-art{order:-1}
-  .shop-art img{height:min(27vh,210px)}
-  .shop .blurb{margin-top:1rem}
-  .order{margin-top:1.5rem}
+  .hb{min-height:0}
+  .hb .wrap{grid-template-columns:1fr;gap:.5rem;padding-block:.75rem 1.25rem}
+  .hb-art{order:-1}
+  .hb-art img{height:min(30vh,215px)}
+  .hb .brush{display:none}
+  .hb-go{gap:1rem}
+  .btn-go{flex:1 1 auto;justify-content:center}
 }
-.shop h1{font-size:clamp(2.6rem,7.6vw,5.4rem);line-height:.88}
-.shop h1 .j{color:var(--orchid);display:block}
-.shop h1 .s{color:var(--cyan);display:block}
-.shop .blurb{
-  margin-top:clamp(1.25rem,3vw,1.75rem);
-  font-size:clamp(1rem,1.5vw,1.15rem);color:var(--ink-2);max-width:46ch;
+
+/* A short phone - an SE, or any phone showing its browser chrome - still has to
+   reach the button without scrolling, so the bottle gives up the space.
+   Must follow the block above: same specificity, so the later rule wins. */
+@media (max-width:860px) and (max-height:700px){
+  .hb-art img{height:min(22vh,150px)}
+  .hb .wrap{gap:.25rem;padding-block:.5rem 1rem}
+  .hb-line{font-size:1.2rem}
 }
 
 /* ---------- the order form ---------- */
+
+.orderzone{background:var(--plaster);scroll-margin-top:var(--bar,68px)}
+.orderzone .wrap{padding-block:clamp(2.25rem,5.5vw,3.75rem)}
+.pitch{
+  max-width:62ch;margin:0 auto clamp(1.75rem,4vw,2.5rem);text-align:center;
+  font-size:clamp(1rem,1.6vw,1.18rem);color:var(--ink-2);
+}
+
 .order{
-  margin-top:clamp(1.75rem,4vw,2.5rem);
-  background:var(--plaster);border:2px solid var(--ink);
-  padding:clamp(1.25rem,3vw,2rem);max-width:34rem;
+  background:var(--plaster-2);border:2px solid var(--ink);
+  padding:clamp(1.25rem,3vw,2.25rem);
 }
 .order-head{
   display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
@@ -424,13 +492,20 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 .order-head .each{font-size:.9rem;color:var(--ink-2)}
 .order-head .each s{opacity:.5;margin-right:.3rem}
 
+/* two columns from 900px: the choices on the left, who you are on the right.
+   Roughly halves how far the form runs down the page. */
+.order-grid{display:grid;grid-template-columns:1fr;gap:0 clamp(1.5rem,3.5vw,3.5rem)}
+@media (min-width:900px){
+  .order-grid{grid-template-columns:1fr 1fr}
+  .order-grid .og-col > :first-child{margin-top:0}
+}
+
 .row{margin-top:1.4rem}
 .row > .lbl{color:var(--ink-2);margin-bottom:.6rem}
 .row-qty{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-.order .qty{border-color:var(--ink)}
+.order .qty{border-color:var(--ink);background:var(--plaster)}
 .row-qty .sum{font-family:var(--display);font-size:1.45rem;line-height:1}
 
-/* pickup / delivery, as a two-up segmented control */
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
 .seg input{position:absolute;opacity:0;width:0;height:0}
 .seg label{
@@ -466,7 +541,13 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 .field.pair > div{min-width:0}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
-.totals{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line)}
+/* totals on the left, the button on the right, rather than stacked */
+.order-foot{
+  margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr;gap:1.25rem clamp(1.5rem,3.5vw,3.5rem);
+}
+@media (min-width:900px){.order-foot{grid-template-columns:1fr 1fr;align-items:end}}
+.totals{display:grid}
 .t-line{display:flex;justify-content:space-between;gap:1rem;padding-block:.3rem;color:var(--ink-2)}
 .t-line .v{font-variant-numeric:tabular-nums}
 .t-total{
@@ -476,17 +557,17 @@ footer .wrap{padding-block:clamp(2.5rem,5vw,3.5rem);display:grid;gap:2rem}
 .t-total .k{font-family:var(--body);font-size:.6875rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase}
 .t-total .v{font-family:var(--display);font-size:1.75rem;line-height:1;font-variant-numeric:tabular-nums}
 
-.order .btn{width:100%;margin-top:1.25rem;padding-block:1.15rem}
-.order .btn[disabled]{opacity:.55;cursor:default}
+.order-go .btn{width:100%;padding-block:1.15rem;border:0;cursor:pointer}
+.order-go .btn[disabled]{opacity:.55;cursor:default}
 .pay-note{margin-top:.85rem;font-size:.85rem;color:var(--ink-2);line-height:1.55}
 .err{margin-top:.85rem;font-size:.9rem;color:#9B2C1F;line-height:1.5}
 .err[hidden]{display:none}
 
-/* what replaces the form once the order lands */
-.order-done{display:grid;gap:.5rem}
+.order-done{display:grid;gap:.5rem;max-width:34rem;margin-inline:auto}
 .order-done h2{font-size:clamp(1.5rem,3.5vw,2rem)}
 .order-done p{color:var(--ink-2)}
-.order-done .totals{margin-top:1rem}
+.order-done .totals{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line)}
+#fallback{max-width:40rem;margin-inline:auto}
 
 /* ---------- the rest of the range ---------- */
 .range{background:var(--teal);color:#fff;position:relative;overflow:hidden}

@@ -12,13 +12,18 @@ window.TWB.delivery = {
   freeFrom: 6,    // bottles at or above which delivery costs nothing
   minimum: 0,     // smallest delivery order, in bottles. 0 means no minimum
   area: 'central Jerusalem',
-  areas: '',      // the neighbourhoods, e.g. 'Rehavia, Nachlaot, the city centre'
-  when: ''        // the days and times, e.g. 'Thursdays and Fridays, 4-8pm'
+  // the neighbourhoods, as one phrase. Ends open so a street just off the list
+  // does not read as a refusal.
+  areas: 'Nachlaot, Shaarei Chesed, Rechavia, Talbiya, Mahane Yehuda, '
+       + 'the city centre and nearby',
+  // a whole sentence, printed as written. Swap it for fixed days and times
+  // ('Deliveries go out Thursdays and Fridays, 4-8pm') if that ever changes.
+  when: 'We will settle a delivery time with you on the phone'
 };
 
 window.TWB.pickup = {
-  address: '',    // e.g. '12 Example Street, Jerusalem'
-  hours: ''       // e.g. 'Sunday to Thursday, 5-8pm'
+  address: 'Nissim Bachar, Nachlaot, Jerusalem',
+  hours: ''       // fixed hours, if there ever are any, e.g. 'Sunday to Thursday, 5-8pm'
 };
 
 /* What delivery costs for an order of n bottles. */

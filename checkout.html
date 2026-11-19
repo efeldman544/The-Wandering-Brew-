@@ -595,7 +595,7 @@ footer .lbl{opacity:.6}
       money(D.fee) + ', free from ' + D.freeFrom;
 
     var where = 'We deliver in ' + D.area + (D.areas ? ' \u2014 ' + D.areas : '') + '.';
-    var when  = D.when ? ' Deliveries go out ' + sentence(D.when) : '';
+    var when  = D.when ? ' ' + sentence(D.when) : '';
     var min   = D.minimum > 0 ? ' Delivery orders start at ' + D.minimum + ' bottles.' : '';
     document.querySelector('[data-delivery-note]').textContent =
       where + when + min + ' Free on ' + D.freeFrom + ' bottles or more. Below that, ' + money(D.fee) + '.';

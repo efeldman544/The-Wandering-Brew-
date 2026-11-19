@@ -65,112 +65,136 @@
 
 <main id="top">
 
-  <section class="shop">
-    <div class="blob gold" aria-hidden="true"></div>
-    <div class="blob orchid" aria-hidden="true"></div>
+  <section class="hb">
     <div class="wrap">
 
-      <div class="shop-art">
+      <div class="hb-art">
         <img src="img/bottle-jerusalem-syndrome.png" width="333" height="1182"
              alt="A bottle of Jerusalem Syndrome, its watercolour hamsa label on plaster.">
       </div>
 
-      <div class="shop-main">
-        <div class="tag lbl">New release</div>
+      <div class="hb-copy">
+        <div class="chip chip-gold">The Wandering Brew</div>
         <h1><span class="j">Jerusalem</span><span class="s">Syndrome</span></h1>
         <svg class="brush" viewBox="0 0 320 16" aria-hidden="true">
           <path d="M3 11 C60 4, 120 13, 178 7 C226 2, 274 10, 316 5"
                 fill="none" stroke="var(--gold)" stroke-width="7" stroke-linecap="round"/>
         </svg>
-        <p class="blurb">That bright, untethered certainty that something enormous has just been understood. We could not bottle the revelation, so we bottled the hour before it: hazy, generous and entirely sure of itself. Some people come to Jerusalem and find enlightenment. We think this is close enough.</p>
-        <div class="specs lbl" style="--hair:var(--line)">
-          <div><span class="k">ABV</span><span class="v">5.6%</span></div>
-          <div><span class="k">Style</span><span class="v">Hazy IPA</span></div>
-          <div><span class="k">Price</span><span class="v"><s>&#8362;20</s> &#8362;18</span></div>
+        <div class="chip-row">
+          <span class="chip chip-cyan">Hazy IPA</span>
+          <span class="chip chip-cyan">5.6%</span>
         </div>
+        <p class="hb-line">A little journey in every pour.</p>
 
-        <form class="order" id="order" novalidate>
-          <div class="order-head">
-            <h2>Order</h2>
-            <div class="each"><s>&#8362;20</s> &#8362;18 a bottle</div>
+        <div class="hb-go">
+          <div class="price">
+            <s>&#8362;20</s><b>&#8362;18</b><i>a bottle</i>
           </div>
-
-          <div class="row row-qty">
-            <div class="qty" role="group" aria-label="Number of bottles">
-              <button type="button" class="qty-btn" data-step="-1" aria-label="One fewer">&minus;</button>
-              <input class="qty-n" id="qty" name="qty" type="number" inputmode="numeric"
-                     min="1" max="24" step="1" value="1" aria-label="Bottles">
-              <button type="button" class="qty-btn" data-step="1" aria-label="One more">+</button>
-            </div>
-            <div class="sum" data-bottles>1 bottle</div>
-          </div>
-
-          <div class="row">
-            <div class="lbl">How to get it</div>
-            <div class="seg">
-              <input type="radio" name="method" id="m-pickup" value="pickup" checked>
-              <label for="m-pickup"><span class="t">Pickup</span><span class="d" data-pickup-d>Free</span></label>
-              <input type="radio" name="method" id="m-delivery" value="delivery">
-              <label for="m-delivery"><span class="t">Delivery</span><span class="d" data-delivery-d>Central Jerusalem</span></label>
-            </div>
-
-            <div class="panel" id="pickup-panel">
-              <p class="hint" data-pickup-note></p>
-            </div>
-
-            <div class="panel" id="delivery-panel" hidden>
-              <div class="field" style="margin-top:0">
-                <label class="lbl" for="address">Delivery address</label>
-                <textarea id="address" name="address" autocomplete="street-address"
-                          placeholder="Street and number, apartment, neighbourhood"></textarea>
-              </div>
-              <p class="hint" data-delivery-note></p>
-            </div>
-          </div>
-
-          <div class="field pair">
-            <div>
-              <label class="lbl" for="name">Name</label>
-              <input id="name" name="name" autocomplete="name" required>
-            </div>
-            <div>
-              <label class="lbl" for="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" required>
-            </div>
-          </div>
-          <div class="field">
-            <label class="lbl" for="email">Email <span class="opt">optional</span></label>
-            <input id="email" name="email" type="email" autocomplete="email">
-          </div>
-          <div class="field">
-            <label class="lbl" for="notes">Anything else <span class="opt">optional</span></label>
-            <textarea id="notes" name="notes" placeholder="A day that suits you, a gift message, anything we should know."></textarea>
-          </div>
-          <div class="hp" aria-hidden="true">
-            <label>Company <input id="company" name="company" tabindex="-1" autocomplete="off"></label>
-          </div>
-
-          <div class="totals" data-totals></div>
-
-          <button class="btn" type="submit" id="send">Place the order</button>
-          <p class="err" id="err" role="alert" hidden></p>
-          <p class="pay-note">Nothing is charged here. We will call to confirm, and you pay when you collect it or when it arrives.</p>
-        </form>
-
-        <div class="order order-done" id="done" hidden>
-          <h2>Order received</h2>
-          <p>Thanks — we have it. We will call you on <b data-done-phone></b> to confirm.</p>
-          <div class="totals" data-done-totals></div>
+          <a class="btn btn-go" href="#order-zone" data-go>Order now <span aria-hidden="true">&rarr;</span></a>
         </div>
-
-        <div class="order" id="fallback" hidden>
-          <h2>Almost there</h2>
-          <p style="color:var(--ink-2);margin-top:.5rem">We could not send this from the site, so your mail app should have opened with the order in it. If it did not, copy the order below and send it to <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>.</p>
-          <pre id="fallback-text" style="white-space:pre-wrap;font:inherit;background:var(--plaster-2);padding:1rem;margin-top:1rem"></pre>
-          <button class="btn" type="button" id="copy">Copy it</button>
-        </div>
+        <p class="hb-note">Pickup in Nachlaot, or delivery in central Jerusalem &mdash; free from 6 bottles.</p>
       </div>
 
+    </div>
+    <div class="facts">
+      <span>Hazy IPA</span><span>Bold flavour</span><span>Good vibes</span>
+    </div>
+  </section>
+
+  <section class="orderzone" id="order-zone">
+    <div class="wrap">
+      <p class="pitch">That bright, untethered certainty that something enormous has just been understood. We could not bottle the revelation, so we bottled the hour before it: hazy, generous and entirely sure of itself. Some people come to Jerusalem and find enlightenment. We think this is close enough.</p>
+
+      <form class="order" id="order" novalidate>
+        <div class="order-head">
+          <h2>Order</h2>
+          <div class="each"><s>&#8362;20</s> &#8362;18 a bottle</div>
+        </div>
+
+        <div class="order-grid">
+          <div class="og-col">
+            <div class="row row-qty">
+              <div class="qty" role="group" aria-label="Number of bottles">
+                <button type="button" class="qty-btn" data-step="-1" aria-label="One fewer">&minus;</button>
+                <input class="qty-n" id="qty" name="qty" type="number" inputmode="numeric"
+                       min="1" max="24" step="1" value="1" aria-label="Bottles">
+                <button type="button" class="qty-btn" data-step="1" aria-label="One more">+</button>
+              </div>
+              <div class="sum" data-bottles>1 bottle</div>
+            </div>
+
+            <div class="row">
+              <div class="lbl">How to get it</div>
+              <div class="seg">
+                <input type="radio" name="method" id="m-pickup" value="pickup" checked>
+                <label for="m-pickup"><span class="t">Pickup</span><span class="d" data-pickup-d>Free</span></label>
+                <input type="radio" name="method" id="m-delivery" value="delivery">
+                <label for="m-delivery"><span class="t">Delivery</span><span class="d" data-delivery-d>Central Jerusalem</span></label>
+              </div>
+
+              <div class="panel" id="pickup-panel">
+                <p class="hint" data-pickup-note></p>
+              </div>
+
+              <div class="panel" id="delivery-panel" hidden>
+                <div class="field" style="margin-top:0">
+                  <label class="lbl" for="address">Delivery address</label>
+                  <textarea id="address" name="address" autocomplete="street-address"
+                            placeholder="Street and number, apartment, neighbourhood"></textarea>
+                </div>
+                <p class="hint" data-delivery-note></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="og-col">
+            <div class="field pair">
+              <div>
+                <label class="lbl" for="name">Name</label>
+                <input id="name" name="name" autocomplete="name" required>
+              </div>
+              <div>
+                <label class="lbl" for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" required>
+              </div>
+            </div>
+            <div class="field">
+              <label class="lbl" for="email">Email <span class="opt">optional</span></label>
+              <input id="email" name="email" type="email" autocomplete="email">
+            </div>
+            <div class="field">
+              <label class="lbl" for="notes">Anything else <span class="opt">optional</span></label>
+              <textarea id="notes" name="notes" placeholder="A day that suits you, a gift message, anything we should know."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label>Company <input id="company" name="company" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <div class="order-foot">
+          <div class="totals" data-totals></div>
+          <div class="order-go">
+            <button class="btn btn-go" type="submit" id="send">Place the order</button>
+            <p class="err" id="err" role="alert" hidden></p>
+            <p class="pay-note">Nothing is charged here. We will call to confirm, and you pay when you collect it or when it arrives.</p>
+          </div>
+        </div>
+      </form>
+
+      <div class="order order-done" id="done" hidden>
+        <h2>Order received</h2>
+        <p>Thanks &mdash; we have it. We will call you on <b data-done-phone></b> to confirm.</p>
+        <div class="totals" data-done-totals></div>
+      </div>
+
+      <div class="order" id="fallback" hidden>
+        <h2>Almost there</h2>
+        <p style="color:var(--ink-2);margin-top:.5rem">We could not send this from the site, so your mail app should have opened with the order in it. If it did not, copy the order below and send it to <a href="mailto:info@thewanderingbrew.co.il">info@thewanderingbrew.co.il</a>.</p>
+        <pre id="fallback-text" style="white-space:pre-wrap;font:inherit;background:var(--plaster-2);padding:1rem;margin-top:1rem"></pre>
+        <button class="btn" type="button" id="copy">Copy it</button>
+      </div>
     </div>
   </section>
 
