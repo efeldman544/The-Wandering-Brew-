@@ -9,8 +9,13 @@ Live at **[thewanderingbrew.co.il](https://thewanderingbrew.co.il)**
 A static site. No build step, no dependencies, no framework.
 
 ```
-index.html              the whole page (markup + CSS inline)
-checkout.html           the order page, standalone
+index.html              the landing page: buy Jerusalem Syndrome
+about.html              the beers, the story, find us, the stockist map
+checkout.html           multi-item cart checkout (see Ordering)
+site.css                every style on the site, shared by both pages
+delivery.js             pickup and delivery settings  <- EDIT THIS
+order.js                the order form on the landing page
+age.js                  age gate, cart link, sticky-bar offset
 api/order.js            serverless function, emails an order to the brewery
 img/bottle-*.png        product shots, one per beer
 og.jpg                  social share image (1200x630)
@@ -72,21 +77,55 @@ properties at the top, sampled from the bottle labels:
 Beers are in release order, newest first. Each is one `<article class="beer">`
 that sets its own `--bg`, `--fg` and `--accent`.
 
+## Pickup and delivery
+
+**Everything you need to change lives at the top of `delivery.js`.**
+
+```js
+fee: 20          // shekels, charged on orders below freeFrom
+freeFrom: 6      // bottles at or above which delivery costs nothing
+minimum: 0       // smallest delivery order, in bottles. 0 means no minimum
+area: 'central Jerusalem'
+areas: ''        // the neighbourhoods, e.g. 'Rehavia, Nachlaot, the city centre'
+when: ''         // the days and times, e.g. 'Thursdays and Fridays, 4-8pm'
+```
+
+and below it, for pickup:
+
+```js
+address: ''      // e.g. '12 Example Street, Jerusalem'
+hours: ''        // e.g. 'Sunday to Thursday, 5-8pm'
+```
+
+The three empty strings start empty **on purpose**. Each page prints whatever is
+filled in and says nothing at all about what is not, so an empty field costs you
+a helpful line but never puts a claim on the site that is not true yet. Fill one
+in and it appears; leave it and the page quietly works around it. With
+`pickup.address` empty the form says it will call with the address; fill it in
+and the address is shown instead.
+
+`fee` and `freeFrom` are also in `api/order.js`, near the top. **Change them in
+both places.** The server keeps its own copy because it recomputes every figure
+itself — a price that arrives from a browser is never trusted — so the copy in
+`api/order.js` is the one an order is actually costed against.
+
 ## Ordering
 
-Jerusalem Syndrome has an **Add to cart** button; the other three carry a
-**Sold out** chip instead. To put a beer on sale, give it the same `.buy`
-block that Jerusalem Syndrome has in `index.html` (the `data-add` value is its
-id) and add a matching entry to `PRODUCTS` at the bottom of `checkout.html`.
-To take one off sale, swap the block back for the sold-out chip — the id can
-stay in `PRODUCTS`, it just stops being reachable.
+The landing page sells Jerusalem Syndrome from a form on the page itself: pick a
+quantity, choose pickup or delivery, leave a name and phone, send. There is no
+cart hop, because there is one beer on sale. The other three carry a **Sold out**
+chip on `about.html`.
 
-The cart lives in `localStorage` under `twb-cart`, as `{id: bottles}`. It is
-per-browser and never leaves the visitor's machine until they send the order.
+To put a second beer on sale, add it to `PRODUCTS` in `api/order.js` and in
+`checkout.html`, then send buyers to `checkout.html`, which handles any number of
+items and offers the same pickup/delivery choice. `checkout.html` reads the cart
+from `localStorage` under `twb-cart` as `{id: bottles}`; the cart link in the top
+bar stays hidden while that is empty.
 
-`checkout.html` collects a name, phone and optional email and notes, then POSTs
-the order to `/api/order`, which emails it to `info@thewanderingbrew.co.il`.
-**Nothing is charged and no card details are handled anywhere.**
+Both paths POST to `/api/order`, which emails the order to
+`info@thewanderingbrew.co.il`. **Nothing is charged and no card details are
+handled anywhere.** The email subject says `Pickup order` or `Delivery order` so
+you can tell them apart in the inbox, and a delivery order carries the address.
 
 If that call fails for any reason — no API key set, the mail provider down, the
 visitor offline — the page falls back to opening their own mail app with the
@@ -165,5 +204,11 @@ After that, adding a shop is a pin on the map — nothing in this repo changes.
 
 ### Still to fill in
 
-- A pickup address, if you would rather state one than arrange it per order
+- **`delivery.js`** — confirm `fee` and `freeFrom`, and fill in `areas`, `when`,
+  and the pickup `address` and `hours`. Until then the site offers delivery in
+  central Jerusalem at ₪20, free from 6 bottles, and says it will call with the
+  pickup address.
+- Our story still reads "one recipe, a great deal of confidence and no plan
+  whatsoever" — it needs rewriting, and nobody has said what actually happened
 - Photography — there are no shots of the brewery, people, or beer in a glass
+- The site is English only, on a `.co.il` domain selling in Jerusalem

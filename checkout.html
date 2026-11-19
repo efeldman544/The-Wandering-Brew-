@@ -78,6 +78,15 @@ h2{font-size:1.5rem;margin-bottom:1.25rem}
 .qty-n{width:2.6rem;height:2.7rem;text-align:center;padding:0;background:none;border:0;
   color:inherit;font-family:var(--display);font-size:1.25rem;-moz-appearance:textfield}
 .qty-n::-webkit-outer-spin-button,.qty-n::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.seg input{position:absolute;opacity:0;width:0;height:0}
+.seg label{display:block;cursor:pointer;padding:.85rem 1rem;border:2px solid var(--line);background:#fff;transition:border-color .18s ease}
+.seg .t{font-size:.6875rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:block}
+.seg .d{display:block;margin-top:.3rem;font-size:.85rem;color:var(--ink-2);line-height:1.4}
+.seg label:hover{border-color:var(--muted)}
+.seg input:checked + label{border-color:var(--ink)}
+.seg input:focus-visible + label{outline:3px solid var(--orchid);outline-offset:3px}
+.hint{margin-top:.6rem;font-size:.85rem;color:var(--ink-2);line-height:1.5}
 .total{display:flex;justify-content:space-between;gap:1rem;margin-top:1.35rem}
 .total+.total{margin-top:.7rem;padding-top:.9rem;border-top:1px solid var(--line)}
 .line .st s{opacity:.5;margin-right:.1rem}
@@ -96,7 +105,7 @@ h2{font-size:1.5rem;margin-bottom:1.25rem}
 }
 .field textarea{min-height:6.5rem;resize:vertical}
 .field input:focus,.field textarea:focus{border-color:var(--ink);outline:none}
-.field.bad input{border-color:#B3261E}
+.field.bad input,.field.bad textarea{border-color:#B3261E}
 .err{display:none;margin-top:.4rem;color:#B3261E;font-size:.85rem}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .field.bad .err{display:block}
@@ -143,11 +152,12 @@ footer .wrap{padding-block:2.25rem;display:flex;justify-content:space-between;ga
 footer .mark{color:#F1E8DF;margin-right:0}
 footer .lbl{opacity:.6}
 </style>
+<script src="delivery.js"></script>
 <script>
 /* Ordering sits behind the same age check as the rest of the site. */
 (function(){
   try{ if(localStorage.getItem('twb-age-ok') === '1') return; }catch(e){ return; }
-  location.replace('index.html');
+  location.replace('/');
 })();
 </script>
 </head>
@@ -155,15 +165,15 @@ footer .lbl{opacity:.6}
 
 <header class="topbar">
   <div class="wrap">
-    <a class="mark" href="index.html"><span class="script">The</span><span class="name">Wandering Brew</span></a>
-    <a class="back" href="index.html">&larr; Back to the beers</a>
+    <a class="mark" href="/"><span class="script">The</span><span class="name">Wandering Brew</span></a>
+    <a class="back" href="/">&larr; Back</a>
   </div>
 </header>
 
 <main>
   <div class="wrap">
     <h1>Your order</h1>
-    <p class="lede" id="lede">For pickup. Place your order below and we will confirm it with pickup details.</p>
+    <p class="lede" id="lede">Pickup, or delivery in central Jerusalem. Place your order below and we will call to confirm.</p>
 
     <div class="cols" id="cols">
       <section aria-labelledby="h-order">
@@ -171,11 +181,15 @@ footer .lbl{opacity:.6}
         <div id="lines"></div>
         <div class="empty" id="empty" hidden>
           <p>Nothing here yet.</p>
-          <p style="margin-top:1rem"><a href="index.html#beers">Have a look at the beers</a></p>
+          <p style="margin-top:1rem"><a href="about.html#beers">Have a look at the beers</a></p>
         </div>
         <div class="total" id="total" hidden>
           <span class="lbl" style="align-self:center">Bottles</span>
           <span class="v" id="total-n">0</span>
+        </div>
+        <div class="total" id="deliv" hidden>
+          <span class="lbl" style="align-self:center">Delivery</span>
+          <span class="v" id="deliv-v"></span>
         </div>
         <div class="total" id="sum" hidden>
           <span class="lbl" style="align-self:center">Total</span>
@@ -186,6 +200,22 @@ footer .lbl{opacity:.6}
       <section aria-labelledby="h-you" id="form-side">
         <h2 id="h-you">Your details</h2>
         <form id="order-form" novalidate>
+          <div class="field">
+            <div class="lbl" style="margin-bottom:.6rem">How to get it</div>
+            <div class="seg">
+              <input type="radio" name="method" id="m-pickup" value="pickup" checked>
+              <label for="m-pickup"><span class="t">Pickup</span><span class="d">Free</span></label>
+              <input type="radio" name="method" id="m-delivery" value="delivery">
+              <label for="m-delivery"><span class="t">Delivery</span><span class="d" data-delivery-d></span></label>
+            </div>
+          </div>
+          <div class="field" id="f-address" hidden>
+            <label class="lbl" for="address">Delivery address</label>
+            <textarea id="address" name="address" autocomplete="street-address"
+                      placeholder="Street and number, apartment, neighbourhood"></textarea>
+            <div class="err">We need an address to deliver to.</div>
+            <p class="hint" data-delivery-note></p>
+          </div>
           <div class="field" id="f-name">
             <label class="lbl" for="name">Name</label>
             <input id="name" name="name" autocomplete="name" required>
@@ -216,7 +246,7 @@ footer .lbl{opacity:.6}
       <h2>Order sent</h2>
       <p>Thanks &mdash; we have it. We will message you to confirm, with pickup details.</p>
       <div class="receipt" id="receipt"></div>
-      <a class="btn" href="index.html#beers">Back to the beers</a>
+      <a class="btn" href="about.html#beers">Back to the beers</a>
     </div>
 
     <div class="sent" id="fallback" hidden>
@@ -258,6 +288,16 @@ footer .lbl{opacity:.6}
      row next to ABV and style. */
   var PRICE = 18;
   var FULL_PRICE = 20;
+
+  var D = window.TWB.delivery;
+  var addressField = document.getElementById('f-address');
+  var address = document.getElementById('address');
+  var deliv = document.getElementById('deliv');
+  var delivV = document.getElementById('deliv-v');
+
+  function method(){ return document.querySelector('input[name="method"]:checked').value; }
+  function bottleCount(){ var c = read(), t = 0, k; for(k in c){ t += c[k]; } return t; }
+  function fee(){ return method() === 'delivery' ? window.TWB.deliveryFee(bottleCount()) : 0; }
 
   var lines = document.getElementById('lines');
   var empty = document.getElementById('empty');
@@ -364,8 +404,11 @@ footer .lbl{opacity:.6}
     total.hidden = ids.length === 0;
     formSide.hidden = ids.length === 0;
     totalN.textContent = String(n);
+    var f = fee();
+    deliv.hidden = ids.length === 0 || method() !== 'delivery';
+    delivV.textContent = f ? money(f) : 'Free';
     sum.hidden = ids.length === 0 || PRICE == null;
-    if(PRICE != null){ totalSum.textContent = money(n * PRICE); }
+    if(PRICE != null){ totalSum.textContent = money(n * PRICE + f); }
   }
 
   function orderText(d){
@@ -376,11 +419,13 @@ footer .lbl{opacity:.6}
       out.push(q + ' x ' + PRODUCTS[id].name + ' (' + PRODUCTS[id].style + ')'
                + (PRICE == null ? '' : '  ' + money(q * PRICE)));
     });
-    if(PRICE != null){ out.push('', 'Total: ' + money(n * PRICE)); }
+    var f = fee();
+    if(f) out.push('Delivery  ' + money(f));
+    if(PRICE != null){ out.push('', 'Total: ' + money(n * PRICE + f)); }
     out.push('', 'Name: ' + d.name, 'Phone: ' + d.phone);
     if(d.email){ out.push('Email: ' + d.email); }
+    out.push('', d.method === 'delivery' ? 'Deliver to: ' + d.address : 'For pickup');
     if(d.notes){ out.push('', 'Notes: ' + d.notes); }
-    out.push('', 'For pickup');
     return out.join('\n');
   }
 
@@ -414,15 +459,24 @@ footer .lbl{opacity:.6}
       receiptBox.appendChild(row);
     });
 
+    var f = fee();
+    if(f){
+      var dl = el('div', 'r-line');
+      dl.appendChild(el('div', 'r-name', 'Delivery'));
+      dl.appendChild(el('div', 'r-amt', money(f)));
+      receiptBox.appendChild(dl);
+    }
     if(PRICE != null){
       var total = el('div', 'r-line r-total');
       total.appendChild(el('div', 'lbl', 'Total'));
-      total.appendChild(el('div', 'r-amt', money(n * PRICE)));
+      total.appendChild(el('div', 'r-amt', money(n * PRICE + f)));
       receiptBox.appendChild(total);
     }
 
     var who = el('dl', 'r-who');
-    [['Name', d.name], ['Phone', d.phone], ['Email', d.email], ['Notes', d.notes]].forEach(function(pair){
+    [['Name', d.name], ['Phone', d.phone], ['Email', d.email],
+     [d.method === 'delivery' ? 'Deliver to' : 'Collection', d.method === 'delivery' ? d.address : 'Pickup'],
+     ['Notes', d.notes]].forEach(function(pair){
       if(!pair[1]) return;
       var wrap = el('div');
       wrap.appendChild(el('dt', 'lbl', pair[0]));
@@ -463,11 +517,14 @@ footer .lbl{opacity:.6}
       name: form.name.value.trim(),
       phone: form.phone.value.trim(),
       email: form.email.value.trim(),
-      notes: form.notes.value.trim()
+      notes: form.notes.value.trim(),
+      method: method(),
+      address: address.value.trim()
     };
     var ok = check('f-name', d.name.length > 0);
     ok = check('f-phone', d.phone.length >= 6) && ok;
-    if(!ok){ form.querySelector('.bad input').focus(); return; }
+    if(d.method === 'delivery'){ ok = check('f-address', d.address.length >= 6) && ok; }
+    if(!ok){ form.querySelector('.bad input, .bad textarea').focus(); return; }
 
     var body = orderText(d);
     sentText.textContent = body;
@@ -479,6 +536,7 @@ footer .lbl{opacity:.6}
     var payload = {
       items: read(),
       name: d.name, phone: d.phone, email: d.email, notes: d.notes,
+      method: d.method, address: d.method === 'delivery' ? d.address : '',
       company: form.company.value
     };
 
@@ -527,6 +585,29 @@ footer .lbl{opacity:.6}
     sel.removeAllRanges(); sel.addRange(r);
     try{ document.execCommand('copy'); done(); }catch(e){}
   });
+
+  /* pickup or delivery: show the address when it is needed, and keep the
+     totals, the label and the note in step with delivery.js */
+  (function(){
+    function sentence(t){ return t ? (/[.!?]$/.test(t) ? t : t + '.') : ''; }
+
+    document.querySelector('[data-delivery-d]').textContent =
+      money(D.fee) + ', free from ' + D.freeFrom;
+
+    var where = 'We deliver in ' + D.area + (D.areas ? ' \u2014 ' + D.areas : '') + '.';
+    var when  = D.when ? ' Deliveries go out ' + sentence(D.when) : '';
+    var min   = D.minimum > 0 ? ' Delivery orders start at ' + D.minimum + ' bottles.' : '';
+    document.querySelector('[data-delivery-note]').textContent =
+      where + when + min + ' Free on ' + D.freeFrom + ' bottles or more. Below that, ' + money(D.fee) + '.';
+
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="method"]'), function(r){
+      r.addEventListener('change', function(){
+        addressField.hidden = method() !== 'delivery';
+        render();
+        if(method() === 'delivery') address.focus();
+      });
+    });
+  })();
 
   render();
 })();

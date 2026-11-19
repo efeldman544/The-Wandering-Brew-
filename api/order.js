@@ -1,4 +1,5 @@
-/* Takes an order from checkout.html and emails it to the brewery.
+/* Takes an order from the form on the landing page (or from checkout.html) and
+   emails it to the brewery.
    Vercel turns any file in /api into a serverless function, so this is reachable
    at /api/order with no build step and no framework.
 
@@ -18,15 +19,25 @@
 var TO = process.env.ORDER_TO || 'info@thewanderingbrew.co.il';
 var FROM = process.env.ORDER_FROM || 'The Wandering Brew <onboarding@resend.dev>';
 
-/* The catalogue is here as well as in checkout.html deliberately. Prices that
+/* The catalogue is here as well as in the pages deliberately. Prices that
    arrive from a browser are never trusted - every figure in the email below is
    worked out from this table, so a tampered page cannot change what an order
-   says it costs. Keep the two in step. */
+   says it costs. Keep them in step. */
 var PRODUCTS = {
   'jerusalem-syndrome': { name: 'Jerusalem Syndrome', style: 'Hazy IPA, 5.6%' }
 };
 var PRICE = 18;
 var MAX_PER_LINE = 24;
+
+/* Delivery. These two must match delivery.js, which is what the customer sees;
+   this copy is the one the order is actually costed against. */
+var DELIVERY_FEE = 20;
+var DELIVERY_FREE_FROM = 6;
+var DELIVERY_AREA = 'central Jerusalem';
+
+function deliveryFee(bottles){
+  return bottles >= DELIVERY_FREE_FROM ? 0 : DELIVERY_FEE;
+}
 
 function money(n){
   return '₪' + n.toFixed(2).replace(/\.00$/, '');
@@ -64,11 +75,16 @@ module.exports = async function handler(req, res){
   var phone = clean(body.phone, 40);
   var email = clean(body.email, 160);
   var notes = clean(body.notes, 2000);
+  var address = clean(body.address, 400);
+  var delivering = body.method === 'delivery';
 
   if (!name) return res.status(400).json({ ok: false, reason: 'name' });
   if (phone.replace(/\D/g, '').length < 6) return res.status(400).json({ ok: false, reason: 'phone' });
   if (email && !/^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(email)) {
     return res.status(400).json({ ok: false, reason: 'email' });
+  }
+  if (delivering && address.length < 6) {
+    return res.status(400).json({ ok: false, reason: 'address' });
   }
 
   var items = body.items;
@@ -87,21 +103,31 @@ module.exports = async function handler(req, res){
   });
   if (!lines.length) return res.status(400).json({ ok: false, reason: 'items' });
 
+  var fee = delivering ? deliveryFee(bottles) : 0;
+  total += fee;
+
   var key = process.env.RESEND_API_KEY;
   if (!key) return res.status(503).json({ ok: false, reason: 'not-configured' });
 
   var out = ['Order — The Wandering Brew', ''];
   out = out.concat(lines);
+  if (delivering) out.push('Delivery  ' + (fee ? money(fee) : 'free'));
   out.push('', 'Total: ' + money(total) + '  (' + bottles + ' bottle' + (bottles === 1 ? '' : 's') + ')');
   out.push('', 'Name: ' + name, 'Phone: ' + phone);
   if (email) out.push('Email: ' + email);
+  out.push('');
+  if (delivering) {
+    out.push('DELIVERY (' + DELIVERY_AREA + ')', address);
+  } else {
+    out.push('FOR PICKUP');
+  }
   if (notes) out.push('', 'Notes: ' + notes);
-  out.push('', 'For pickup');
 
   var payload = {
     from: FROM,
     to: [TO],
-    subject: 'Order — ' + name + ' — ' + bottles + ' bottle' + (bottles === 1 ? '' : 's'),
+    subject: (delivering ? 'Delivery' : 'Pickup') + ' order — ' + name + ' — '
+             + bottles + ' bottle' + (bottles === 1 ? '' : 's'),
     text: out.join('\n')
   };
   /* so hitting reply in the inbox answers the customer */
